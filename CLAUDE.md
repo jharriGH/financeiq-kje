@@ -1,13 +1,13 @@
 # ⚡ FINANCEIQ — CLAUDE.md
 # Managed by brain_sync.py (Brain sections)
 # + Manual additions (never auto-updated)
-# Last synced: April 20, 2026 08:57 PM PST
+# Last synced: April 22, 2026 01:47 PM PST
 
 ---
 
 ## CURRENT STATUS
 <!-- BRAIN-SYNC:START:STATUS -->
-*Brain sync: April 20, 2026 08:57 PM PST*
+*Brain sync: April 22, 2026 01:47 PM PST*
 
 <!-- BRAIN-SYNC:END:STATUS -->
 
@@ -21,9 +21,9 @@
 - Last decision: KJ Autonomous v2.0: 7/8 KJWidgetz + 8/8 DemoBoosterz agents live. Clone script built. Agent 4 stubbed pending AVA. VoiceDropz stubbed pending Drop Cowboy BYOC. Next: wire Agent 4 to KJ SalesAgentz, clone SiteEnginez + UnhideLocal pipelines.
 
 **AI Costs:**
-- Today: $0.0092
-- This month: $0.0092
-- All time: $0.0092
+- Today: $0.0000
+- This month: $0.0072
+- All time: $0.0072
 
 **Empire:**
 - 6 live | 2 launch ready | 7 in progress
@@ -54,25 +54,21 @@
 
 ---
 
-## STACK & CREDENTIALS
-
-*Add stack details here.*
-*brain_sync.py will never overwrite this section.*
+## MANUAL ADDITIONS
+<!-- brain_sync.py never modifies below this line -->
 
 ---
 
-## GLOBAL RULES
+## EMPIRE STATE & COSTS
 
-- Complete files — no snippets or placeholders
-- Specify repo + Supabase + service on every command
-- `git push origin main --force`
-- service_role key — never anon key
-- curl from RackNerd VPS not Windows CMD
-- brain_log() fast | brain_memory() semantic
-- PATCH /projects for project fields
-- PATCH /state for single metrics
-- Never modify existing n8n workflows
-- No single quotes or em dashes in Brain content
+---
+
+## RECENT FINANCEIQ MEMORIES
+
+---
+
+## BUILD STATE
+
 
 ---
 
@@ -108,5 +104,5 @@ brain_save_card(
 
 ---
 
-*Synced: April 20, 2026 08:57 PM PST*
+*Synced: April 22, 2026 01:47 PM PST*
 *Refresh: `python brain_sync.py financeiq`*
