@@ -5206,7 +5206,7 @@ function renderInsightCards(containerId, limit = 999) {
 function renderPageData(page) {
   // Pages that don't need transaction data
   const noTxPages = ['drmoney','networth','billcalendar','debtcalc','goals','taxtracker','forecast','documents','settings'];
-  if (page.startsWith('credit-') || page.startsWith('loanmodz') || noTxPages.includes(page)) return;
+  if (page.startsWith('credit-') || page.startsWith('loanmodz') || page.startsWith('corp-') || noTxPages.includes(page)) return;
   if (appState.transactions.length === 0) return;
 
   if (page === 'transactions') renderTransactionsPage();
@@ -8476,12 +8476,455 @@ async function loadNewFeatureData() {
       empireEntities = settings.empire_entities;
     }
   } catch(e) { console.warn('loadNewFeatureData error:', e); }
+
+  // Load corp / biz foundation data
+  try { await loadCorpData(); } catch(e) { console.warn('loadCorpData error:', e); }
 }
 
 // New page rendering handled in unified showPage below
 // (page hooks injected directly)
 
 // Boot sequence extended inline above
+
+// ============================================================
+// KJ BIZ FOUNDATION — Corp / DBA / EIN Module
+// DevelopingRiches Inc. · C-Corp · California
+// ============================================================
+
+var CORP_ADVISOR_SYSTEM = 'You are an elite business formation and corporate compliance expert specializing in California C-Corps, DBAs, EINs, and multi-entity structures for digital entrepreneurs.\n\nYOUR CLIENT: Jim Harris, Long Beach CA 90808\nENTITY: DevelopingRiches Inc. (C-Corp, California)\nEIN: on file\nBRANDS/DBAs: KJWidgetz, DemoEnginez, DemoBoosterz, SiteEnginez, VoiceDropz, OfferEnginez, ReviewBombz, KJLE, TestEnginez, InkHaus Studios, StarPhotoz, WestCoastStylez/Concrete Royal, IASY/ForeverGlass, AgentEnginez, ReviewPopz, UnhideLocal, KJ SalesAgentz\nBUSINESS BANK: US Bank (Gold Checking)\nGOAL: Build KJE empire with proper entity protection, minimize taxes, maximize liability separation, maintain clean corporate veil\n\nExpert in: CA LLC vs C-Corp vs S-Corp tradeoffs, multi-entity structures, liability protection, piercing the corporate veil prevention, California Franchise Tax ($800 minimum), self-employment tax optimization, S-Corp election timing and payroll requirements, DBA filing requirements, EIN management, business credit separation from personal, operating agreements and corporate minutes, registered agent requirements, annual compliance deadlines\n\nBe specific and actionable. Reference Jim\'s actual entity structure. Always give next action steps. When relevant, mention when he needs an actual attorney. Format responses with **bold** headers and bullet points. Keep responses 150-400 words.';
+
+var CORP_QUICK_QUESTIONS = [
+  'Should I form separate LLCs for each KJE product?',
+  'How do I maintain the corporate veil for DevelopingRiches?',
+  'When should I elect S-Corp status?',
+  'Do I need separate EINs for each DBA?',
+  'What are my CA annual compliance deadlines?',
+  'How do I file a DBA in LA County?',
+  'What\'s the California Franchise Tax and when is it due?',
+  'How do I pay myself from a C-Corp correctly?',
+  'Do I need corporate minutes and how do I do them?',
+  'What liability risks do I have with my current structure?',
+  'How do I protect personal assets from business debts?',
+  'Should InkHaus/StarPhotoz be separate entities?'
+];
+
+var CORP_HEALTH_ITEMS = [
+  { label: 'EIN obtained from IRS', status: 'green' },
+  { label: 'CA Secretary of State registration', status: 'green' },
+  { label: 'Business bank account (US Bank)', status: 'green' },
+  { label: 'C-Corp election filed', status: 'green' },
+  { label: 'Statement of Information filed (due annually)', status: 'gray' },
+  { label: 'Operating agreement / corporate minutes', status: 'gray' },
+  { label: 'Long Beach business license', status: 'gray' },
+  { label: 'NAICS code registered with D&B', status: 'gray' },
+  { label: 'Registered agent active', status: 'gray' },
+  { label: 'S-Corp election evaluated (or formally declined)', status: 'gray' }
+];
+
+var KJE_FAMILY_BRANDS = [
+  'KJWidgetz','DemoEnginez','DemoBoosterz','SiteEnginez','BuildEnginez',
+  'VoiceDropz','OfferEnginez','ReviewBombz','ReviewPopz','UnhideLocal',
+  'KJ SalesAgentz','KJ RULEZ','KJLE','TestEnginez','AgentEnginez',
+  'InkHaus Studios','StarPhotoz','WestCoastStylez','Concrete Royal',
+  'IASY','ForeverGlass','Harris Family DayCare'
+];
+
+var KJE_DBAS_DEFAULT = [
+  { name: 'KJWidgetz', status: 'NOT_FILED', filed: '', expires: '', domain: 'kjwidgetz.com', revenue: true, notes: 'Primary widget platform' },
+  { name: 'DemoEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'DemoBoosterz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'SiteEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'BuildEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'VoiceDropz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'OfferEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'ReviewBombz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: 'Review management SaaS' },
+  { name: 'ReviewPopz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'UnhideLocal', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'KJ SalesAgentz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'KJ RULEZ', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: 'Empire ops framework' },
+  { name: 'KJLE (King James Lead Engine)', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: true, notes: 'Lead engine SaaS - active' },
+  { name: 'TestEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'AgentEnginez', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'InkHaus Studios', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: 'Creative studio arm' },
+  { name: 'StarPhotoz', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'WestCoastStylez', status: 'NOT_FILED', filed: '', expires: '', domain: 'westcoaststylez.com', revenue: false, notes: 'Post-hack recovery, rebuilding' },
+  { name: 'Concrete Royal', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'IASY', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'ForeverGlass', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: '' },
+  { name: 'Harris Family DayCare', status: 'NOT_FILED', filed: '', expires: '', domain: '', revenue: false, notes: 'Allison Harris' }
+];
+
+var CORP_COMP_DEFAULTS = [
+  { id: 'soi', name: 'Statement of Information', desc: 'CA Secretary of State - SI-200', dueMonth: 1, dueDateStr: 'Feb (annual)', cost: '$25', link: 'https://bizfileonline.sos.ca.gov/', done: false, notes: '' },
+  { id: 'fed1120', name: 'Federal Corp Tax Return (Form 1120)', desc: 'IRS - C-Corp federal income tax return', dueMonth: 3, dueDateStr: 'April 15', cost: 'CPA fee', link: '', done: false, notes: '' },
+  { id: 'ca100', name: 'CA Corp Tax Return (Form 100)', desc: 'FTB - California franchise/income tax return', dueMonth: 3, dueDateStr: 'April 15', cost: 'Min $800 franchise tax', link: 'https://www.ftb.ca.gov/', done: false, notes: '' },
+  { id: 'q1est', name: 'Q1 Estimated Tax Payment', desc: 'IRS 1120-W - Jan-Mar earnings', dueMonth: 3, dueDateStr: 'April 15', cost: '25% annual est.', link: '', done: false, notes: '' },
+  { id: 'q2est', name: 'Q2 Estimated Tax Payment', desc: 'IRS 1120-W - Apr-Jun earnings', dueMonth: 5, dueDateStr: 'June 15', cost: '25% annual est.', link: '', done: false, notes: '' },
+  { id: 'q3est', name: 'Q3 Estimated Tax Payment', desc: 'IRS 1120-W - Jul-Sep earnings', dueMonth: 8, dueDateStr: 'Sep 15', cost: '25% annual est.', link: '', done: false, notes: '' },
+  { id: 'q4est', name: 'Q4 Estimated Tax Payment', desc: 'IRS 1120-W - Oct-Dec earnings', dueMonth: 11, dueDateStr: 'Dec 15', cost: '25% annual est.', link: '', done: false, notes: '' },
+  { id: 'agent', name: 'Registered Agent Renewal', desc: 'Maintain registered agent in California', dueMonth: 0, dueDateStr: 'Annual (varies)', cost: '$0-$150/yr', link: '', done: false, notes: '' },
+  { id: 'bizlic', name: 'Long Beach Business License', desc: 'City of Long Beach business license renewal', dueMonth: 11, dueDateStr: 'Dec 31', cost: 'Varies', link: 'https://www.longbeach.gov/finance/business-info/business-licensing/', done: false, notes: '' },
+  { id: 'duns', name: 'D&B DUNS Annual Profile Update', desc: 'Dun & Bradstreet - update for biz credit building', dueMonth: 0, dueDateStr: 'Annual', cost: 'Free', link: 'https://www.dnb.com/', done: false, notes: '' },
+  { id: 'minutes', name: 'Annual Corporate Minutes', desc: 'Document board decisions - required for corporate veil', dueMonth: 11, dueDateStr: 'Dec 31', cost: 'DIY or $150 attorney', link: '', done: false, notes: '' }
+];
+
+var corpAdvisorState = { messages: [], loading: false };
+var corpDbas = KJE_DBAS_DEFAULT.map(function(d) { return Object.assign({}, d); });
+var corpCompItems = CORP_COMP_DEFAULTS.map(function(i) { return Object.assign({}, i); });
+var corpCalOffset = 0;
+
+function renderCorpDashboard() {
+  var statsEl = document.getElementById('corpQuickStats');
+  if (statsEl) {
+    var totalBrands = corpDbas.length;
+    var activeDba = corpDbas.filter(function(d){ return d.status==='ACTIVE'; }).length;
+    var compDone = corpCompItems.filter(function(c){ return c.done; }).length;
+    var compTotal = corpCompItems.length;
+    statsEl.innerHTML =
+      '<div class="stat-card" style="border-top:2px solid #7c3aed;"><div style="font-size:11px;color:var(--text2);font-family:\'Space Mono\',monospace;margin-bottom:6px;">ENTITY TYPE</div><div style="font-size:22px;font-weight:700;font-family:\'Syne\',sans-serif;color:#a78bfa;">C-Corp</div><div style="font-size:11px;color:var(--text2);margin-top:4px;">California &#183; Active</div></div>' +
+      '<div class="stat-card" style="border-top:2px solid #7c3aed;"><div style="font-size:11px;color:var(--text2);font-family:\'Space Mono\',monospace;margin-bottom:6px;">KJE BRANDS</div><div style="font-size:28px;font-weight:700;font-family:\'Space Mono\',monospace;color:#a78bfa;">' + totalBrands + '</div><div style="font-size:11px;color:var(--text2);margin-top:4px;">' + activeDba + ' DBA filed</div></div>' +
+      '<div class="stat-card" style="border-top:2px solid #7c3aed;"><div style="font-size:11px;color:var(--text2);font-family:\'Space Mono\',monospace;margin-bottom:6px;">COMPLIANCE</div><div style="font-size:28px;font-weight:700;font-family:\'Space Mono\',monospace;color:' + (compDone===compTotal?'var(--income)':'var(--accent4)') + ';">' + compDone + '/' + compTotal + '</div><div style="font-size:11px;color:var(--text2);margin-top:4px;">items complete</div></div>' +
+      '<div class="stat-card" style="border-top:2px solid #7c3aed;"><div style="font-size:11px;color:var(--text2);font-family:\'Space Mono\',monospace;margin-bottom:6px;">PRIMARY EIN</div><div style="font-size:18px;font-weight:700;font-family:\'Space Mono\',monospace;color:var(--income);">&#8226;&#8226;-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div><div style="font-size:11px;color:var(--text2);margin-top:4px;">DevelopingRiches Inc.</div></div>';
+  }
+  var detEl = document.getElementById('corpEntityDetails');
+  if (detEl) {
+    var rows = [['Legal Name','DevelopingRiches Inc.'],['Entity Type','C-Corporation'],['State','California (CA)'],['EIN','On file (masked)'],['Business Bank','US Bank - Gold Checking'],['City','Long Beach, CA 90808'],['NAICS Code','TBD - register with D&amp;B'],['Registered Agent','Active (SOS on file)']];
+    detEl.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;">' + rows.map(function(r){ return '<div><div style="font-size:9px;color:var(--text2);font-family:\'Space Mono\',monospace;letter-spacing:1px;margin-bottom:3px;">' + r[0] + '</div><div style="font-size:13px;font-weight:500;">' + r[1] + '</div></div>'; }).join('') + '</div>';
+  }
+  var treeEl = document.getElementById('corpFamilyTree');
+  if (treeEl) {
+    treeEl.innerHTML = KJE_FAMILY_BRANDS.map(function(b){ return '<div class="entity-chip">' + b + '</div>'; }).join('');
+  }
+  var healthEl = document.getElementById('corpHealthList');
+  if (healthEl) {
+    healthEl.innerHTML = CORP_HEALTH_ITEMS.map(function(item){
+      var badge = item.status==='green' ? '<span style="font-size:10px;color:var(--income);font-family:Space Mono,monospace;white-space:nowrap;margin-left:auto;">&#10003; DONE</span>'
+        : item.status==='yellow' ? '<span style="font-size:10px;color:var(--accent4);font-family:Space Mono,monospace;white-space:nowrap;margin-left:auto;">REVIEW</span>'
+        : item.status==='red' ? '<span style="font-size:10px;color:var(--accent3);font-family:Space Mono,monospace;white-space:nowrap;margin-left:auto;">ACTION</span>'
+        : '<span style="font-size:10px;color:var(--text2);font-family:Space Mono,monospace;white-space:nowrap;margin-left:auto;">PENDING</span>';
+      return '<div class="entity-health-item"><div class="health-dot health-' + item.status + '"></div><span style="flex:1;">' + item.label + '</span>' + badge + '</div>';
+    }).join('');
+  }
+}
+
+function renderCorpCompliance() {
+  renderCorpCalendar();
+  renderCorpCompList();
+  updateCorpCompAlert();
+}
+
+function renderCorpCalendar() {
+  var now = new Date();
+  var displayDate = new Date(now.getFullYear(), now.getMonth() + corpCalOffset, 1);
+  var year = displayDate.getFullYear();
+  var month = displayDate.getMonth();
+  var label = document.getElementById('corpCalLabel');
+  if (label) label.textContent = displayDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  var grid = document.getElementById('corpCalGrid');
+  if (!grid) return;
+  var dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  var firstDay = new Date(year, month, 1).getDay();
+  var today = new Date();
+  var dueDays = {};
+  corpCompItems.forEach(function(item) {
+    if (item.dueMonth !== undefined && item.dueMonth === month) {
+      var d2 = (item.dueDateStr && item.dueDateStr.indexOf('31') > -1) ? 31 : 15;
+      if (!dueDays[d2]) dueDays[d2] = [];
+      dueDays[d2].push(item);
+    }
+  });
+  var html = dow.map(function(d){ return '<div style="text-align:center;font-size:9px;color:var(--text2);font-family:\'Space Mono\',monospace;padding:5px 0;">' + d + '</div>'; }).join('');
+  for (var ii = 0; ii < firstDay; ii++) html += '<div style="min-height:34px;"></div>';
+  for (var dd = 1; dd <= daysInMonth; dd++) {
+    var isTd = today.getFullYear()===year && today.getMonth()===month && today.getDate()===dd;
+    var hd = dueDays[dd];
+    var tip = hd ? ' title="' + hd.map(function(x){return x.name;}).join(', ') + '"' : '';
+    html += '<div style="padding:5px;min-height:34px;border-radius:6px;text-align:center;background:' + (isTd?'rgba(124,58,237,0.2)':hd?'rgba(255,209,102,0.06)':'transparent') + ';border:1px solid ' + (isTd?'#7c3aed':hd?'rgba(255,209,102,0.25)':'transparent') + ';cursor:' + (hd?'pointer':'default') + ';"' + tip + '>'
+      + '<span style="font-size:12px;font-family:\'Space Mono\',monospace;color:' + (isTd?'#a78bfa':hd?'var(--accent4)':'var(--text2)') + ';">' + dd + '</span>'
+      + (hd ? '<div style="width:5px;height:5px;border-radius:50%;background:var(--accent4);margin:2px auto 0;"></div>' : '')
+      + '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function corpCalPrev() { corpCalOffset--; renderCorpCalendar(); }
+function corpCalNext() { corpCalOffset++; renderCorpCalendar(); }
+
+function renderCorpCompList() {
+  var el = document.getElementById('corpCompList');
+  if (!el) return;
+  var now = new Date();
+  var cm = now.getMonth();
+  el.innerHTML = corpCompItems.map(function(item, idx) {
+    var dueSoon = false, overdue = false;
+    if (!item.done && item.dueMonth !== undefined) {
+      var diff = item.dueMonth - cm;
+      if (diff < 0) overdue = true;
+      else if (diff <= 1) dueSoon = true;
+    }
+    var dueClass = item.done ? 'done' : overdue ? 'overdue' : dueSoon ? 'soon' : 'ok';
+    var itemClass = item.done ? '' : overdue ? 'comp-overdue' : dueSoon ? 'comp-due-soon' : '';
+    var dueLabel = item.done ? '&#10003; Done' : (item.dueDateStr || 'Annual');
+    if (dueSoon && !item.done) dueLabel += '<br><span style="font-size:9px;background:rgba(255,209,102,0.15);padding:1px 5px;border-radius:3px;">DUE SOON</span>';
+    if (overdue && !item.done) dueLabel += '<br><span style="font-size:9px;background:rgba(255,101,132,0.15);padding:1px 5px;border-radius:3px;">REVIEW</span>';
+    var fileLink = item.link ? '<a href="' + item.link + '" target="_blank" style="font-size:10px;color:#a78bfa;text-decoration:none;margin-left:8px;white-space:nowrap;flex-shrink:0;">&#8599;</a>' : '';
+    return '<div class="comp-item ' + itemClass + '">'
+      + '<div class="comp-check ' + (item.done ? 'checked' : '') + '" onclick="toggleCorpCompItem(' + idx + ')">' + (item.done ? '&#10003;' : '') + '</div>'
+      + '<div class="comp-info"><div class="comp-name" style="' + (item.done ? 'text-decoration:line-through;opacity:0.45;' : '') + '">' + item.name + '</div>'
+      + '<div class="comp-meta">' + item.desc + (item.cost ? ' &middot; <span style="color:#a78bfa">' + item.cost + '</span>' : '') + '</div></div>'
+      + '<div class="comp-due ' + dueClass + '">' + dueLabel + '</div>'
+      + fileLink + '</div>';
+  }).join('');
+}
+
+function toggleCorpCompItem(idx) {
+  corpCompItems[idx].done = !corpCompItems[idx].done;
+  renderCorpCompList();
+  updateCorpCompAlert();
+  saveCorpComplianceState();
+}
+
+function updateCorpCompAlert() {
+  var now = new Date();
+  var cm = now.getMonth();
+  var dueSoon = corpCompItems.filter(function(i){ return !i.done && i.dueMonth!==undefined && (i.dueMonth-cm)<=1 && (i.dueMonth-cm)>=0; });
+  var overdue = corpCompItems.filter(function(i){ return !i.done && i.dueMonth!==undefined && (i.dueMonth-cm)<0; });
+  var badge = document.getElementById('corpCompAlertBadge');
+  var alertEl = document.getElementById('corpCompAlert');
+  var total = dueSoon.length + overdue.length;
+  if (!total) {
+    if (badge) badge.style.display = 'none';
+    if (alertEl) alertEl.style.display = 'none';
+    return;
+  }
+  if (badge) { badge.style.display = 'inline'; badge.textContent = '⚠️ ' + total + ' item' + (total>1?'s':'') + ' need attention'; }
+  if (alertEl) {
+    alertEl.style.display = 'block';
+    var msgs = [];
+    if (overdue.length) msgs.push(overdue.length + ' overdue: ' + overdue.map(function(i){return i.name;}).join(', '));
+    if (dueSoon.length) msgs.push(dueSoon.length + ' due soon: ' + dueSoon.map(function(i){return i.name;}).join(', '));
+    alertEl.innerHTML = '⚠️ ' + msgs.join(' &middot; ');
+  }
+}
+
+async function saveCorpComplianceState() {
+  await saveSetting('corp_compliance', corpCompItems.map(function(i){ return { id: i.id, done: i.done, notes: i.notes }; }));
+}
+
+async function loadCorpComplianceState() {
+  var saved = await loadSetting('corp_compliance', null);
+  if (saved && Array.isArray(saved)) {
+    saved.forEach(function(s) {
+      var item = corpCompItems.find(function(i){ return i.id === s.id; });
+      if (item) { item.done = !!s.done; item.notes = s.notes || ''; }
+    });
+  }
+}
+
+function renderCorpDba() {
+  renderDbaTable();
+  renderDbaGuide();
+  renderEinManager();
+}
+
+var DBA_STATUS_CYCLE = ['NOT_FILED','FILED','ACTIVE','EXPIRED'];
+
+function renderDbaTable() {
+  var tbody = document.getElementById('dbaTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = corpDbas.map(function(dba, idx) {
+    var sc = {ACTIVE:'dba-status-active',FILED:'dba-status-filed',NOT_FILED:'dba-status-not_filed',EXPIRED:'dba-status-expired'}[dba.status] || 'dba-status-not_filed';
+    var domHtml = dba.domain ? '<span style="color:var(--income);">&#10003; ' + dba.domain + '</span>' : '<span style="color:var(--text2);">&mdash;</span>';
+    var safeNotes = (dba.notes||'').replace(/"/g,'&quot;');
+    return '<tr>'
+      + '<td style="font-weight:500;color:var(--text);white-space:nowrap;">' + dba.name + '</td>'
+      + '<td><span class="dba-status-badge ' + sc + '" onclick="cycleDbaStatus(' + idx + ')" title="Click to cycle">' + dba.status.replace('_',' ') + '</span></td>'
+      + '<td style="color:var(--text2);font-size:11px;">LA County</td>'
+      + '<td><input type="text" value="' + (dba.filed||'') + '" placeholder="MM/YYYY" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text2);font-family:\'Space Mono\',monospace;font-size:10px;width:65px;outline:none;" onchange="corpDbas[' + idx + '].filed=this.value;saveCorpDbaState()"></td>'
+      + '<td><input type="text" value="' + (dba.expires||'') + '" placeholder="MM/YYYY" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text2);font-family:\'Space Mono\',monospace;font-size:10px;width:65px;outline:none;" onchange="corpDbas[' + idx + '].expires=this.value;saveCorpDbaState()"></td>'
+      + '<td style="font-size:11px;">' + domHtml + '</td>'
+      + '<td style="text-align:center;"><input type="checkbox" ' + (dba.revenue?'checked':'') + ' onchange="corpDbas[' + idx + '].revenue=this.checked;saveCorpDbaState()" style="accent-color:#7c3aed;width:14px;height:14px;"></td>'
+      + '<td><input type="text" value="' + safeNotes + '" placeholder="notes..." style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:11px;width:100%;outline:none;min-width:80px;" onchange="corpDbas[' + idx + '].notes=this.value;saveCorpDbaState()"></td>'
+      + '<td><a href="https://lavote.gov/home/county-clerk/filings-recordings/fictitious-business-name" target="_blank" style="font-size:10px;color:#a78bfa;text-decoration:none;white-space:nowrap;">File &rarr;</a></td>'
+      + '</tr>';
+  }).join('');
+  var active = corpDbas.filter(function(d){ return d.status==='ACTIVE'; }).length;
+  var ca = document.getElementById('dbaCountActive');
+  var ct = document.getElementById('dbaCountTotal');
+  if (ca) ca.textContent = active + ' ACTIVE';
+  if (ct) ct.textContent = corpDbas.length + ' TOTAL';
+}
+
+function cycleDbaStatus(idx) {
+  var i = DBA_STATUS_CYCLE.indexOf(corpDbas[idx].status);
+  corpDbas[idx].status = DBA_STATUS_CYCLE[(i+1) % DBA_STATUS_CYCLE.length];
+  renderDbaTable();
+  saveCorpDbaState();
+}
+
+function renderDbaGuide() {
+  var el = document.getElementById('dbaGuideContent');
+  if (!el) return;
+  var steps = [
+    ['1','Search existing names','Check lavote.gov &mdash; ensure name is not already taken in LA County'],
+    ['2','Complete FBN-01 form','File online at lavote.gov or in person &middot; 12400 Imperial Hwy, Norwalk CA'],
+    ['3','Pay filing fee','$26 first name &middot; $10 each additional name on same filing'],
+    ['4','Publish in newspaper','4 consecutive weeks in adjudicated paper within 30 days of filing (~$45&ndash;90)'],
+    ['5','File proof of publication','Return proof to LA County Registrar within 30 days of last publication'],
+    ['6','Receive certificate','Certificate mailed &middot; Present to bank for business accounts']
+  ];
+  el.innerHTML = '<div class="corp-section-title">How to File in LA County</div>'
+    + '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">'
+    + steps.map(function(s){ return '<div style="display:flex;gap:10px;align-items:start;"><div style="width:22px;height:22px;border-radius:50%;background:#7c3aed;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + s[0] + '</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">' + s[1] + '</div><div style="font-size:11px;color:var(--text2);margin-top:1px;">' + s[2] + '</div></div></div>'; }).join('')
+    + '</div><div style="padding:12px;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.75;">'
+    + '&#128205; <strong style="color:var(--text);">Office:</strong> 12400 Imperial Hwy, Norwalk CA<br>'
+    + '&#8987; <strong style="color:var(--text);">Valid:</strong> 5 years &middot; Renew before expiration<br>'
+    + '&#9888; <strong style="color:var(--text);">DBA vs new entity:</strong> DBA = trade name only. Need liability protection? &rarr; Form a separate LLC ($70 CA filing fee + $800 min franchise tax/yr).</div>';
+}
+
+function renderEinManager() {
+  var el = document.getElementById('einManagerContent');
+  if (!el) return;
+  var whenRows = [
+    ['New legal entity (LLC or Corp)','Required &mdash; each entity must have its own EIN'],
+    ['Separate payroll entity','Required if hiring under a different legal entity'],
+    ['Bank account requirement','Some banks require separate EIN for separate biz accounts'],
+    ['DBAs only','NOT required &mdash; all KJE DBAs use DevelopingRiches Inc. EIN']
+  ];
+  el.innerHTML = '<div style="padding:14px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:8px;margin-bottom:16px;">'
+    + '<div style="font-size:9px;color:var(--text2);font-family:\'Space Mono\',monospace;margin-bottom:4px;">PRIMARY EIN &mdash; DEVELOPINGRICHES INC.</div>'
+    + '<div style="font-size:20px;font-weight:700;font-family:\'Space Mono\',monospace;color:var(--income);">&#8226;&#8226;-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>'
+    + '<div style="font-size:11px;color:var(--text2);margin-top:4px;">C-Corp &middot; California &middot; All DBAs use this EIN</div></div>'
+    + '<div class="corp-section-title">When to Get Additional EINs</div>'
+    + '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">'
+    + whenRows.map(function(r){ return '<div style="display:flex;gap:8px;font-size:12px;"><span style="color:#a78bfa;flex-shrink:0;">&rsaquo;</span><div><strong style="color:var(--text);">' + r[0] + ':</strong> <span style="color:var(--text2);">' + r[1] + '</span></div></div>'; }).join('')
+    + '</div><a href="https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" target="_blank" class="btn btn-ghost" style="width:100%;text-align:center;text-decoration:none;display:block;border-color:rgba(0,229,160,0.3);color:var(--income);">&#128279; Apply for EIN Online (IRS.gov) &rarr;</a>';
+}
+
+async function saveCorpDbaState() {
+  await saveSetting('corp_dbas', corpDbas);
+}
+
+async function loadCorpDbaState() {
+  var saved = await loadSetting('corp_dbas', null);
+  if (saved && Array.isArray(saved) && saved.length > 0) corpDbas = saved;
+}
+
+function corpInitAdvisor() {
+  var el = document.getElementById('corpChatMessages');
+  if (!el || el.children.length > 0) return;
+  corpAppendAI('⚖️ **Corp Advisor AI — Ready**\n\nI have your complete KJE entity structure loaded. DevelopingRiches Inc. as a California C-Corp with 22 brands — a solid empire foundation.\n\n**Your structure at a glance:**\n• Entity: DevelopingRiches Inc. · C-Corp · California\n• Bank: US Bank Gold Checking (separate from personal — good)\n• EIN: On file with IRS\n• Brands: 22 operating under one C-Corp umbrella\n• Liability: Single-entity structure — corporate veil must stay clean\n\n**Priority actions:**\n• File CA Statement of Information (annual · $25)\n• Establish annual corporate minutes (critical for veil protection)\n• File DBAs for revenue brands: KJLE, KJWidgetz, ReviewBombz\n• Evaluate S-Corp election timing for tax savings\n\nWhat would you like to dig into first?');
+  corpRenderQuickPrompts();
+}
+
+function corpRenderQuickPrompts() {
+  var qpEl = document.getElementById('corpQuickPrompts');
+  if (!qpEl) return;
+  qpEl.innerHTML = CORP_QUICK_QUESTIONS.map(function(q) {
+    return '<button class="corp-quick-btn" onclick="corpAskQuick(this.dataset.q)" data-q="' + q.replace(/"/g,'&quot;').replace(/'/g,'&#39;') + '">' + q + '</button>';
+  }).join('');
+}
+
+function corpAskQuick(q) {
+  var input = document.getElementById('corpChatInput');
+  if (input) { input.value = q; corpSendChat(); }
+}
+
+function corpAppendAI(text) {
+  var el = document.getElementById('corpChatMessages');
+  if (!el) return;
+  var div = document.createElement('div');
+  div.className = 'lm-chat-bubble corp-chat-bubble-ai';
+  div.innerHTML = text
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#e2e8f0;">$1</strong>')
+    .replace(/\n/g, '<br>')
+    .replace(/• (.+)/g, '<div style="margin:2px 0 2px 12px;"><span style="color:#a78bfa;">&rsaquo;</span> $1</div>');
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function corpAppendUser(text) {
+  var el = document.getElementById('corpChatMessages');
+  if (!el) return;
+  var div = document.createElement('div');
+  div.className = 'lm-chat-bubble corp-chat-bubble-user';
+  div.textContent = text;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function corpShowTyping() {
+  var el = document.getElementById('corpChatMessages');
+  if (!el) return;
+  var div = document.createElement('div');
+  div.id = 'corpTyping';
+  div.className = 'lm-chat-bubble corp-chat-bubble-ai';
+  div.innerHTML = '<span style="color:#a78bfa;letter-spacing:3px;">⚖️ ···</span>';
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function corpHideTyping() {
+  var t = document.getElementById('corpTyping');
+  if (t) t.parentNode.removeChild(t);
+}
+
+async function corpSendChat() {
+  var input = document.getElementById('corpChatInput');
+  var sendBtn = document.getElementById('corpChatSendBtn');
+  if (!input || !input.value.trim() || corpAdvisorState.loading) return;
+  var userMsg = input.value.trim();
+  input.value = '';
+  corpAdvisorState.loading = true;
+  if (sendBtn) sendBtn.disabled = true;
+  corpAppendUser(userMsg);
+  saveChatMessage('corp_advisor', 'user', userMsg);
+  corpShowTyping();
+  corpAdvisorState.messages = corpAdvisorState.messages.concat([{ role: 'user', content: userMsg }]);
+  try {
+    var reply = await corpCallClaude(corpAdvisorState.messages);
+    corpHideTyping();
+    corpAdvisorState.messages.push({ role: 'assistant', content: reply });
+    corpAppendAI(reply);
+    saveChatMessage('corp_advisor', 'assistant', reply);
+  } catch(err) {
+    corpHideTyping();
+    corpAppendAI('Error: ' + err.message + '. Please try again.');
+  }
+  corpAdvisorState.loading = false;
+  if (sendBtn) sendBtn.disabled = false;
+  if (input) input.focus();
+}
+
+async function corpCallClaude(messages) {
+  var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: CORP_ADVISOR_SYSTEM, messages: messages })
+  });
+  if (!resp.ok) throw new Error('API error: ' + resp.status);
+  var data = await resp.json();
+  return (data.content || []).map(function(b){ return b.text||''; }).join('') || '';
+}
+
+async function loadCorpAdvisorHistory() {
+  var history = await loadChatHistory('corp_advisor');
+  if (history && history.length > 0) {
+    history.forEach(function(m) {
+      corpAdvisorState.messages.push({ role: m.role, content: m.content_text });
+      if (m.role === 'user') corpAppendUser(m.content_text);
+      else corpAppendAI(m.content_text);
+    });
+    corpRenderQuickPrompts();
+  } else {
+    corpInitAdvisor();
+  }
+}
+
+async function loadCorpData() {
+  await Promise.all([loadCorpDbaState(), loadCorpComplianceState()]);
+}
 
 // =============================================
 // KJE EMPIRE MULTI-ENTITY DASHBOARD
