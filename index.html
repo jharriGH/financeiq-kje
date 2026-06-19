@@ -63,6 +63,7 @@
     padding: 24px 0;
     position: fixed;
     height: 100vh;
+    overflow-y: auto;
     z-index: 100;
     transition: transform 0.3s;
   }
@@ -1101,6 +1102,147 @@
   }
   .lm-quick-btn:hover { border-color: #00d4ff55; color: #00d4ff; }
 
+  /* ===================== CORP / BIZ FOUNDATION ===================== */
+  .corp-section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7c3aed;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(124,58,237,0.2);
+  }
+  .entity-health-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .entity-health-item:last-child { border-bottom: none; }
+  .health-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .health-green { background: var(--income); }
+  .health-yellow { background: var(--accent4); }
+  .health-red { background: var(--accent3); }
+  .health-gray { background: var(--border); }
+  .entity-family-tree { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .entity-chip {
+    padding: 5px 12px;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.25);
+    border-radius: 20px;
+    font-size: 10px;
+    color: #a78bfa;
+    font-family: 'Space Mono', monospace;
+  }
+  .dba-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .dba-table th {
+    text-align: left;
+    padding: 7px 8px;
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .dba-table td { padding: 8px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+  .dba-table tr:last-child td { border-bottom: none; }
+  .dba-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .dba-status-badge {
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .dba-status-active { background: rgba(0,229,160,0.15); color: var(--income); }
+  .dba-status-filed { background: rgba(108,99,255,0.15); color: var(--accent2); }
+  .dba-status-not_filed { background: rgba(255,159,67,0.15); color: var(--debt); }
+  .dba-status-expired { background: rgba(255,101,132,0.15); color: var(--accent3); }
+  .comp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    margin-bottom: 7px;
+    transition: border-color 0.15s;
+  }
+  .comp-item:hover { border-color: rgba(124,58,237,0.3); }
+  .comp-item.comp-due-soon { border-color: rgba(255,209,102,0.35); }
+  .comp-item.comp-overdue { border-color: rgba(255,101,132,0.35); }
+  .comp-check {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+    color: #fff;
+  }
+  .comp-check.checked { background: #7c3aed; border-color: #7c3aed; }
+  .comp-info { flex: 1; min-width: 0; }
+  .comp-name { font-size: 13px; font-weight: 500; }
+  .comp-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .comp-due { font-size: 11px; font-family: 'Space Mono', monospace; margin-left: auto; flex-shrink: 0; text-align: right; }
+  .comp-due.soon { color: var(--accent4); }
+  .comp-due.overdue { color: var(--accent3); }
+  .comp-due.ok { color: var(--text2); }
+  .comp-due.done { color: var(--income); }
+  .corp-chat-bubble-ai {
+    align-self: flex-start;
+    background: #0d0a1a;
+    border: 1px solid rgba(124,58,237,0.25);
+    color: #c4b5fd;
+  }
+  .corp-chat-bubble-user {
+    align-self: flex-end;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.3);
+    color: #e2e8f0;
+  }
+  .corp-chat-send {
+    padding: 12px 22px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    font-family: 'Space Mono', monospace;
+    transition: opacity 0.15s;
+  }
+  .corp-chat-send:disabled { opacity: 0.35; cursor: not-allowed; }
+  .corp-quick-btn {
+    padding: 6px 12px;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.25);
+    border-radius: 20px;
+    color: #a78bfa;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .corp-quick-btn:hover { border-color: #7c3aed; color: #c4b5fd; }
+
   .lm-ref-card {
     background: #0a0f1a;
     border: 1px solid #1a2535;
@@ -1613,6 +1755,362 @@
   }
   .logo-upload-zone:hover { border-color: var(--accent); }
   .logo-preview { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; }
+
+  /* ---- KJE EMPIRE DASHBOARD ---- */
+  .empire-banner {
+    background: linear-gradient(135deg, #1a1a10 0%, #1f1a00 50%, #1a1200 100%);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .empire-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(245,200,66,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .empire-banner-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .empire-stats-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+  .empire-stat {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(245,200,66,0.15);
+  }
+  .empire-stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .empire-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .empire-stat-sub {
+    font-size: 10px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .empire-goal-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .empire-goal-bar {
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid rgba(245,200,66,0.1);
+  }
+  .empire-goal-label {
+    font-size: 10px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .empire-goal-track {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .empire-goal-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    transition: width 0.6s ease;
+  }
+  .empire-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .empire-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .empire-card:hover { border-color: rgba(245,200,66,0.4); box-shadow: 0 4px 20px rgba(245,200,66,0.06); }
+  .empire-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .empire-card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .empire-card-category {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+  }
+  .empire-status-pill {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    border: none;
+    outline: none;
+    transition: opacity 0.15s;
+  }
+  .empire-status-pill:hover { opacity: 0.75; }
+  .status-pre-launch { background: rgba(42,42,58,0.8); color: var(--text2); }
+  .status-building { background: rgba(108,99,255,0.2); color: var(--accent2); }
+  .status-beta { background: rgba(255,209,102,0.2); color: var(--accent4); }
+  .status-live { background: rgba(0,229,160,0.15); color: var(--accent); }
+  .status-paused { background: rgba(255,101,132,0.15); color: var(--expense); }
+  .empire-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .empire-metric {
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .empire-metric-label {
+    font-size: 9px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .empire-metric-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .empire-metric input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: inherit;
+    width: 100%;
+    cursor: text;
+  }
+  .empire-metric input[type="date"] { font-size: 11px; font-family: 'Space Mono', monospace; font-weight: 400; }
+  .empire-metric-auto { color: var(--accent); }
+  .empire-metric-profit-pos { color: var(--income); }
+  .empire-metric-profit-neg { color: var(--expense); }
+  .empire-sparkline {
+    margin: 10px 0 8px;
+  }
+  .empire-sparkline-track {
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 3px;
+  }
+  .empire-sparkline-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--accent));
+    transition: width 0.5s ease;
+  }
+  .empire-sparkline-label {
+    font-size: 9px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    display: flex;
+    justify-content: space-between;
+  }
+  .empire-health-score {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.3);
+  }
+  .empire-notes {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text2);
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: text;
+    min-height: 28px;
+    line-height: 1.5;
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .empire-notes:focus { outline: none; border-color: var(--gold); color: var(--text); }
+  .empire-milestone {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--gold);
+  }
+  .empire-milestone input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+  }
+  .empire-projections {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .empire-projections-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--gold);
+  }
+  .empire-proj-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .empire-proj-card {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .empire-proj-label { font-size: 10px; color: var(--text2); font-family: 'Space Mono', monospace; margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .empire-proj-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--gold); }
+  .empire-proj-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+  .empire-add-btn {
+    background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(230,168,23,0.1));
+    border: 1px dashed rgba(245,200,66,0.4);
+    border-radius: 14px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gold);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .empire-add-btn:hover { background: rgba(245,200,66,0.12); border-color: var(--gold); }
+  .empire-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+  }
+  .empire-modal-overlay.open { display: flex; }
+  .empire-modal {
+    background: var(--bg2);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 28px;
+    width: 560px;
+    max-width: 95vw;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .empire-modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .empire-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .empire-modal-field label {
+    font-size: 10px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .empire-modal-field input,
+  .empire-modal-field select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .empire-modal-field input:focus,
+  .empire-modal-field select:focus { border-color: var(--gold); }
+  .empire-modal-field select option { background: var(--bg2); }
+  .empire-modal-field.full { grid-column: 1 / -1; }
+  .empire-chart-wrap {
+    height: 200px;
+    margin-top: 20px;
+    position: relative;
+  }
 </style>
 </head>
 <body>
@@ -1740,6 +2238,10 @@
       <div class="nav-item" onclick="showPage('documents')">
         <span class="icon">📁</span> Documents
       </div>
+      <div class="nav-item" onclick="showPage('empire')">
+        <span class="icon">👑</span> KJE Empire
+        <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">LIVE</span>
+      </div>
       <div class="nav-item" onclick="showPage('settings')">
         <span class="icon">⚙️</span> Settings
       </div>
@@ -1758,6 +2260,23 @@
       </div>
       <div class="nav-item" onclick="showPage('loanmodz-advisor')">
         <span class="icon">⚖️</span> SPS Advisor
+        <span class="nav-badge" style="background:#7c3aed;color:#fff;">AI</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label" style="color:#7c3aed;">⚖️ Biz Foundation</div>
+      <div class="nav-item" onclick="showPage('corp-dashboard')">
+        <span class="icon">🏛️</span> Corp Dashboard
+      </div>
+      <div class="nav-item" onclick="showPage('corp-compliance')">
+        <span class="icon">📋</span> Compliance Calendar
+      </div>
+      <div class="nav-item" onclick="showPage('corp-dba')">
+        <span class="icon">🏷️</span> DBA Manager
+      </div>
+      <div class="nav-item" onclick="showPage('corp-advisor')">
+        <span class="icon">⚖️</span> Corp Advisor AI
         <span class="nav-badge" style="background:#7c3aed;color:#fff;">AI</span>
       </div>
     </div>
@@ -3255,6 +3774,325 @@
       </div>
     </div>
 
+    <!-- ============ CORP DASHBOARD ============ -->
+    <div class="page" id="page-corp-dashboard">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Corp <span style="color:#7c3aed;">Command Center</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">DevelopingRiches Inc. · C-Corp · California · EIN on file</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="renderCorpDashboard()" style="border-color:rgba(124,58,237,0.4);color:#a78bfa;">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="stats-grid" id="corpQuickStats"></div>
+      <div class="two-col" style="align-items:start;">
+        <div>
+          <div class="card" style="border-color:rgba(124,58,237,0.2);">
+            <div class="card-header">
+              <div class="card-title">🏛️ DevelopingRiches Inc.</div>
+              <span class="card-badge" style="background:rgba(0,229,160,0.1);color:var(--income);">ACTIVE</span>
+            </div>
+            <div id="corpEntityDetails"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🌳 KJE Entity Family Tree</div>
+              <span class="card-badge badge-purple">22 Brands</span>
+            </div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:8px;">All operating under DevelopingRiches Inc. umbrella</div>
+            <div class="entity-family-tree" id="corpFamilyTree"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="border-color:rgba(124,58,237,0.2);">
+            <div class="card-header">
+              <div class="card-title">✅ Entity Health Check</div>
+            </div>
+            <div id="corpHealthList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CORP COMPLIANCE ============ -->
+    <div class="page" id="page-corp-compliance">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Compliance <span style="color:#7c3aed;">Calendar</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Never miss a corporate deadline · DevelopingRiches Inc.</div>
+        </div>
+        <div class="topbar-right">
+          <span id="corpCompAlertBadge" style="display:none;background:rgba(255,209,102,0.15);color:var(--accent4);border:1px solid rgba(255,209,102,0.3);padding:5px 14px;border-radius:20px;font-size:11px;font-family:'Space Mono',monospace;"></span>
+        </div>
+      </div>
+      <div id="corpCompAlert" style="display:none;background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.3);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--accent4);"></div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">📅 Compliance Calendar</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-ghost" onclick="corpCalPrev()" style="padding:5px 10px;">←</button>
+            <span id="corpCalLabel" style="font-family:'Space Mono',monospace;font-size:12px;min-width:110px;text-align:center;"></span>
+            <button class="btn btn-ghost" onclick="corpCalNext()" style="padding:5px 10px;">→</button>
+          </div>
+        </div>
+        <div id="corpCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 All Compliance Items</div>
+          <span style="font-size:11px;color:var(--text2);font-family:'Space Mono',monospace;">Click checkbox to mark complete</span>
+        </div>
+        <div id="corpCompList"></div>
+      </div>
+    </div>
+
+    <!-- ============ DBA MANAGER ============ -->
+    <div class="page" id="page-corp-dba">
+      <div class="topbar">
+        <div>
+          <div class="page-title">DBA <span style="color:#7c3aed;">Manager</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Fictitious Business Names · LA County · DevelopingRiches Inc.</div>
+        </div>
+        <div class="topbar-right">
+          <a href="https://lavote.gov/home/county-clerk/filings-recordings/fictitious-business-name" target="_blank" class="btn btn-ghost" style="border-color:rgba(124,58,237,0.4);color:#a78bfa;text-decoration:none;">🏛️ File DBA @ LA County →</a>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">🏷️ KJE Brand Registry</div>
+          <div style="display:flex;gap:8px;">
+            <span id="dbaCountActive" style="font-size:10px;background:rgba(0,229,160,0.1);color:var(--income);padding:3px 10px;border-radius:12px;font-family:'Space Mono',monospace;"></span>
+            <span id="dbaCountTotal" style="font-size:10px;background:rgba(124,58,237,0.1);color:#a78bfa;padding:3px 10px;border-radius:12px;font-family:'Space Mono',monospace;"></span>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="dba-table">
+            <thead>
+              <tr>
+                <th>Brand Name</th>
+                <th>DBA Status</th>
+                <th>County</th>
+                <th>Filed</th>
+                <th>Expires</th>
+                <th>Domain</th>
+                <th>Revenue?</th>
+                <th>Notes</th>
+                <th>File</th>
+              </tr>
+            </thead>
+            <tbody id="dbaTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="two-col" style="align-items:start;">
+        <div class="card" style="border-color:rgba(124,58,237,0.2);">
+          <div class="card-header">
+            <div class="card-title">📖 CA DBA Filing Guide</div>
+            <span class="card-badge" style="background:rgba(124,58,237,0.1);color:#a78bfa;">LA County</span>
+          </div>
+          <div id="dbaGuideContent"></div>
+        </div>
+        <div class="card" style="border-color:rgba(0,229,160,0.2);">
+          <div class="card-header">
+            <div class="card-title">🔢 EIN Manager</div>
+            <span class="card-badge badge-green">Federal</span>
+          </div>
+          <div id="einManagerContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CORP ADVISOR AI ============ -->
+    <div class="page" id="page-corp-advisor">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Corp Advisor <span style="color:#7c3aed;">AI</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Elite CA C-Corp · DBA · EIN · Multi-entity advisor · Knows your full KJE structure</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="clearChatHistory('corp_advisor').then(()=>{corpAdvisorState.messages=[];const el=document.getElementById('corpChatMessages');if(el)el.innerHTML='';corpInitAdvisor();})">🗑 Clear Chat</button>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px;">QUICK QUESTIONS</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="corpQuickPrompts"></div>
+      </div>
+      <div class="lm-chat-wrap" style="border-color:rgba(124,58,237,0.25);">
+        <div class="lm-chat-messages" id="corpChatMessages"></div>
+        <div class="lm-chat-input-row" style="border-top-color:rgba(124,58,237,0.2);background:#080512;">
+          <input class="lm-chat-input" id="corpChatInput" style="border-color:rgba(124,58,237,0.2);background:#0d0a1a;" placeholder="Ask about entity structure, DBAs, EINs, S-Corp election, corporate veil, CA compliance..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)corpSendChat()">
+          <button class="corp-chat-send" id="corpChatSendBtn" onclick="corpSendChat()">SEND →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ KJE EMPIRE PAGE ============ -->
+    <div class="page" id="page-empire">
+      <div class="topbar">
+        <div>
+          <div class="page-title">👑 KJ Empire <span>Command Center</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Multi-Entity Revenue Dashboard — 12 Active Products</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="empireOpenAddModal()">+ Add Entity</button>
+          <button class="btn btn-primary" onclick="empireSaveAll()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;">💾 Save All</button>
+        </div>
+      </div>
+
+      <!-- Totals Banner -->
+      <div class="empire-banner">
+        <div class="empire-banner-title">👑 Empire Totals</div>
+        <div class="empire-stats-row">
+          <div class="empire-stat">
+            <div class="empire-stat-label">Total MRR</div>
+            <div class="empire-stat-value" id="emp-total-mrr">$0</div>
+            <div class="empire-stat-sub" id="emp-total-mrr-sub">of $21K target</div>
+          </div>
+          <div class="empire-stat">
+            <div class="empire-stat-label">Total Clients</div>
+            <div class="empire-stat-value" id="emp-total-clients">0</div>
+            <div class="empire-stat-sub">across all entities</div>
+          </div>
+          <div class="empire-stat">
+            <div class="empire-stat-label">Monthly Costs</div>
+            <div class="empire-stat-value" id="emp-total-costs" style="color:var(--expense);">$0</div>
+            <div class="empire-stat-sub">infra + tools + ads</div>
+          </div>
+          <div class="empire-stat">
+            <div class="empire-stat-label">Net Profit</div>
+            <div class="empire-stat-value" id="emp-total-profit">$0</div>
+            <div class="empire-stat-sub">MRR minus costs</div>
+          </div>
+          <div class="empire-stat">
+            <div class="empire-stat-label">Empire Health</div>
+            <div class="empire-stat-value" id="emp-health-score" style="color:var(--accent4);">—</div>
+            <div class="empire-stat-sub">avg entity score</div>
+          </div>
+          <div class="empire-stat">
+            <div class="empire-stat-label">LIVE Entities</div>
+            <div class="empire-stat-value" id="emp-live-count" style="color:var(--accent);">0</div>
+            <div class="empire-stat-sub">of all products</div>
+          </div>
+        </div>
+        <div class="empire-goal-bars">
+          <div class="empire-goal-bar">
+            <div class="empire-goal-label">
+              <span>$10K/mo Goal</span>
+              <span id="emp-10k-pct">0%</span>
+            </div>
+            <div class="empire-goal-track"><div class="empire-goal-fill" id="emp-10k-bar" style="width:0%"></div></div>
+          </div>
+          <div class="empire-goal-bar">
+            <div class="empire-goal-label">
+              <span>$50K/mo Goal</span>
+              <span id="emp-50k-pct">0%</span>
+            </div>
+            <div class="empire-goal-track"><div class="empire-goal-fill" id="emp-50k-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Entity Grid -->
+      <div class="empire-grid" id="empireGrid"></div>
+
+      <!-- Add Entity Button -->
+      <div class="empire-add-btn" onclick="empireOpenAddModal()" style="margin-bottom:28px;">
+        + Add New Entity
+      </div>
+
+      <!-- Financial Projections -->
+      <div class="empire-projections">
+        <div class="empire-projections-title">📈 Financial Projections</div>
+        <div class="empire-proj-grid">
+          <div class="empire-proj-card">
+            <div class="empire-proj-label">Reach $10K MRR</div>
+            <div class="empire-proj-value" id="emp-proj-10k">—</div>
+            <div class="empire-proj-sub" id="emp-proj-10k-sub">at current growth</div>
+          </div>
+          <div class="empire-proj-card">
+            <div class="empire-proj-label">Reach $50K MRR</div>
+            <div class="empire-proj-value" id="emp-proj-50k">—</div>
+            <div class="empire-proj-sub" id="emp-proj-50k-sub">at current growth</div>
+          </div>
+          <div class="empire-proj-card">
+            <div class="empire-proj-label">Break-Even Entities</div>
+            <div class="empire-proj-value" id="emp-proj-be">—</div>
+            <div class="empire-proj-sub" id="emp-proj-be-sub">currently profitable</div>
+          </div>
+        </div>
+        <div class="empire-chart-wrap">
+          <canvas id="empireProjectionChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Entity Modal -->
+    <div class="empire-modal-overlay" id="empireModalOverlay">
+      <div class="empire-modal">
+        <div class="empire-modal-title">👑 Add New Entity</div>
+        <div class="empire-modal-grid">
+          <div class="empire-modal-field">
+            <label>Entity Name</label>
+            <input type="text" id="emp-new-name" placeholder="e.g. CoolSaaS">
+          </div>
+          <div class="empire-modal-field">
+            <label>Emoji</label>
+            <input type="text" id="emp-new-emoji" placeholder="🚀" maxlength="4">
+          </div>
+          <div class="empire-modal-field">
+            <label>Category</label>
+            <input type="text" id="emp-new-category" placeholder="e.g. SaaS Platform">
+          </div>
+          <div class="empire-modal-field">
+            <label>Status</label>
+            <select id="emp-new-status">
+              <option value="PRE-LAUNCH">PRE-LAUNCH</option>
+              <option value="BUILDING">BUILDING</option>
+              <option value="BETA">BETA</option>
+              <option value="LIVE">LIVE</option>
+              <option value="PAUSED">PAUSED</option>
+            </select>
+          </div>
+          <div class="empire-modal-field">
+            <label>Current MRR ($)</label>
+            <input type="number" id="emp-new-mrr" placeholder="0" min="0">
+          </div>
+          <div class="empire-modal-field">
+            <label>Target MRR ($)</label>
+            <input type="number" id="emp-new-target" placeholder="1000" min="0">
+          </div>
+          <div class="empire-modal-field">
+            <label>Clients</label>
+            <input type="number" id="emp-new-clients" placeholder="0" min="0">
+          </div>
+          <div class="empire-modal-field">
+            <label>Monthly Costs ($)</label>
+            <input type="number" id="emp-new-costs" placeholder="0" min="0">
+          </div>
+          <div class="empire-modal-field">
+            <label>MoM Growth %</label>
+            <input type="number" id="emp-new-growth" placeholder="0" step="0.1">
+          </div>
+          <div class="empire-modal-field">
+            <label>Launch Date</label>
+            <input type="date" id="emp-new-launch">
+          </div>
+          <div class="empire-modal-field full">
+            <label>Next Milestone</label>
+            <input type="text" id="emp-new-milestone" placeholder="e.g. First 10 paying customers">
+          </div>
+          <div class="empire-modal-field full">
+            <label>Notes</label>
+            <input type="text" id="emp-new-notes" placeholder="Any notes about this entity...">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button class="btn btn-ghost" onclick="empireCloseModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="empireAddEntity()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;">Add Entity</button>
+        </div>
+      </div>
+    </div>
 
   </main>
 </div>
@@ -5974,6 +6812,25 @@ function showPage(name) {
   if (name === 'loanmodz-advisor') {
     setTimeout(lmInitAdvisor, 50);
   }
+
+  // Corp / Biz Foundation pages
+  if (name === 'corp-dashboard') setTimeout(renderCorpDashboard, 50);
+  if (name === 'corp-compliance') setTimeout(renderCorpCompliance, 50);
+  if (name === 'corp-dba') setTimeout(renderCorpDba, 50);
+  if (name === 'corp-advisor') {
+    const corpEl = document.getElementById('corpChatMessages');
+    if (!corpEl || corpEl.children.length === 0) {
+      setTimeout(loadCorpAdvisorHistory, 50);
+    } else {
+      setTimeout(() => {
+        const qpEl = document.getElementById('corpQuickPrompts');
+        if (qpEl && !qpEl.children.length) corpRenderQuickPrompts();
+      }, 50);
+    }
+  }
+
+  // KJE Empire
+  if (name === 'empire') setTimeout(renderEmpireDashboard, 50);
 }
 
 
@@ -7613,6 +8470,11 @@ async function loadNewFeatureData() {
       Object.assign(appSettings, settings.app_settings);
       loadSettingsToUI();
     }
+
+    // Load empire entities
+    if (settings.empire_entities && Array.isArray(settings.empire_entities)) {
+      empireEntities = settings.empire_entities;
+    }
   } catch(e) { console.warn('loadNewFeatureData error:', e); }
 }
 
@@ -7620,6 +8482,313 @@ async function loadNewFeatureData() {
 // (page hooks injected directly)
 
 // Boot sequence extended inline above
+
+// =============================================
+// KJE EMPIRE MULTI-ENTITY DASHBOARD
+// =============================================
+
+const EMPIRE_DEFAULTS = [
+  { id:'kjle',            name:'KJLE',                emoji:'⚡', category:'Lead Engine SaaS',      status:'BUILDING',   mrr:0, target_mrr:5000,  clients:0, costs:0, growth:0, milestone:'Launch to 10 paying users',      launch:'', notes:'' },
+  { id:'kjwidgetz',       name:'KJWidgetz',            emoji:'🧩', category:'Widget SaaS',           status:'BUILDING',   mrr:0, target_mrr:3000,  clients:0, costs:0, growth:0, milestone:'Widget embed on 5 client sites', launch:'', notes:'' },
+  { id:'demoboosterz',    name:'DemoBoosterz',         emoji:'🎬', category:'Demo Platform',         status:'PRE-LAUNCH', mrr:0, target_mrr:2000,  clients:0, costs:0, growth:0, milestone:'First demo booked',              launch:'', notes:'' },
+  { id:'demoenginez',     name:'DemoEnginez',          emoji:'🔧', category:'Demo Engine',           status:'PRE-LAUNCH', mrr:0, target_mrr:2000,  clients:0, costs:0, growth:0, milestone:'Engine v1 shipped',              launch:'', notes:'' },
+  { id:'offerenginez',    name:'OfferEnginez',         emoji:'🎯', category:'Offer Builder SaaS',    status:'PRE-LAUNCH', mrr:0, target_mrr:1500,  clients:0, costs:0, growth:0, milestone:'Offer builder beta live',         launch:'', notes:'' },
+  { id:'siteenginez',     name:'SiteEnginez',          emoji:'🌐', category:'Site Builder SaaS',     status:'PRE-LAUNCH', mrr:0, target_mrr:2000,  clients:0, costs:0, growth:0, milestone:'First site published',            launch:'', notes:'' },
+  { id:'voicedropz',      name:'VoiceDropz',           emoji:'🎙️', category:'Voice/RVM Platform',   status:'PRE-LAUNCH', mrr:0, target_mrr:1500,  clients:0, costs:0, growth:0, milestone:'First RVM campaign sent',         launch:'', notes:'' },
+  { id:'daycaremarketerz',name:'DaycareMarketerz',     emoji:'🏫', category:'Vertical SaaS',         status:'PRE-LAUNCH', mrr:0, target_mrr:1000,  clients:0, costs:0, growth:0, milestone:'Daycare niche beta',             launch:'', notes:'' },
+  { id:'reviewbombz',     name:'ReviewBombz',          emoji:'⭐', category:'Reputation SaaS',       status:'PRE-LAUNCH', mrr:0, target_mrr:1500,  clients:0, costs:0, growth:0, milestone:'10 reputation clients',           launch:'', notes:'' },
+  { id:'iasy',            name:'IASY/ForeverGlass',    emoji:'🕊️', category:'Memorial Keepsakes',   status:'PRE-LAUNCH', mrr:0, target_mrr:2000,  clients:0, costs:0, growth:0, milestone:'First memorial product shipped',   launch:'', notes:'' },
+  { id:'inkhaus',         name:'InkHaus Studios',      emoji:'🖨️', category:'DTG+Laser Print Shop', status:'PRE-LAUNCH', mrr:0, target_mrr:1500,  clients:0, costs:0, growth:0, milestone:'Print shop open for orders',      launch:'', notes:'' },
+  { id:'starphotoz',      name:'StarPhotoz',           emoji:'📸', category:'Photo Booth Rental',    status:'PRE-LAUNCH', mrr:0, target_mrr:1000,  clients:0, costs:0, growth:0, milestone:'First photo booth booking',       launch:'', notes:'' },
+];
+
+const EMPIRE_STATUSES = ['PRE-LAUNCH','BUILDING','BETA','LIVE','PAUSED'];
+
+let empireEntities = JSON.parse(JSON.stringify(EMPIRE_DEFAULTS));
+let empireProjectionChart = null;
+
+function empireCalcHealth(e) {
+  const mrrScore    = e.target_mrr > 0 ? Math.min(40, (e.mrr / e.target_mrr) * 40) : 0;
+  const clientScore = Math.min(20, e.clients * 2);
+  const margin      = e.mrr > 0 ? ((e.mrr - e.costs) / e.mrr) : (e.costs === 0 ? 0.5 : 0);
+  const marginScore = Math.min(25, Math.max(0, margin * 25));
+  const growthScore = Math.min(15, Math.max(0, e.growth * 1.5));
+  return Math.round(mrrScore + clientScore + marginScore + growthScore);
+}
+
+function empireHealthColor(score) {
+  if (score >= 70) return 'var(--accent)';
+  if (score >= 40) return 'var(--accent4)';
+  return 'var(--expense)';
+}
+
+function empireStatusClass(status) {
+  const map = { 'PRE-LAUNCH':'status-pre-launch','BUILDING':'status-building','BETA':'status-beta','LIVE':'status-live','PAUSED':'status-paused' };
+  return map[status] || 'status-pre-launch';
+}
+
+function empireCycleStatus(idx) {
+  const e = empireEntities[idx];
+  const cur = EMPIRE_STATUSES.indexOf(e.status);
+  e.status = EMPIRE_STATUSES[(cur + 1) % EMPIRE_STATUSES.length];
+  const pill = document.getElementById('emp-pill-' + idx);
+  if (pill) {
+    pill.textContent = e.status;
+    pill.className = 'empire-status-pill ' + empireStatusClass(e.status);
+  }
+  empireUpdateTotals();
+  empireSaveAll();
+}
+
+function empireUpdateCard(idx) {
+  const e = empireEntities[idx];
+  ['mrr','target_mrr','clients','costs','growth'].forEach(f => {
+    const el = document.getElementById('emp-' + idx + '-' + f);
+    if (el) e[f] = parseFloat(el.value) || 0;
+  });
+
+  const profit = e.mrr - e.costs;
+  const margin = e.mrr > 0 ? ((profit / e.mrr) * 100).toFixed(1) : '0.0';
+  const health = empireCalcHealth(e);
+  const pct    = e.target_mrr > 0 ? Math.min(100, (e.mrr / e.target_mrr) * 100) : 0;
+
+  const profitEl = document.getElementById('emp-' + idx + '-profit');
+  const marginEl = document.getElementById('emp-' + idx + '-margin');
+  const healthEl = document.getElementById('emp-' + idx + '-health');
+  const sparkEl  = document.getElementById('emp-' + idx + '-spark');
+  const sparkPct = document.getElementById('emp-' + idx + '-sparkpct');
+
+  if (profitEl) {
+    profitEl.textContent = '$' + profit.toLocaleString();
+    profitEl.className = 'empire-metric-auto ' + (profit >= 0 ? 'empire-metric-profit-pos' : 'empire-metric-profit-neg');
+  }
+  if (marginEl) marginEl.textContent = margin + '%';
+  if (healthEl) { healthEl.textContent = health + '/100'; healthEl.style.color = empireHealthColor(health); }
+  if (sparkEl)  sparkEl.style.width = pct + '%';
+  if (sparkPct) sparkPct.textContent = Math.round(pct) + '% of target';
+
+  empireUpdateTotals();
+}
+
+function empireUpdateTotals() {
+  empireEntities.forEach((e, idx) => {
+    ['mrr','target_mrr','clients','costs','growth'].forEach(f => {
+      const el = document.getElementById('emp-' + idx + '-' + f);
+      if (el) e[f] = parseFloat(el.value) || 0;
+    });
+  });
+
+  const totalMRR    = empireEntities.reduce((s,e) => s + (e.mrr||0), 0);
+  const totalTarget = empireEntities.reduce((s,e) => s + (e.target_mrr||0), 0);
+  const totalClients= empireEntities.reduce((s,e) => s + (e.clients||0), 0);
+  const totalCosts  = empireEntities.reduce((s,e) => s + (e.costs||0), 0);
+  const totalProfit = totalMRR - totalCosts;
+  const liveCount   = empireEntities.filter(e => e.status === 'LIVE').length;
+  const avgHealth   = Math.round(empireEntities.reduce((s,e) => s + empireCalcHealth(e), 0) / empireEntities.length);
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('emp-total-mrr', '$' + totalMRR.toLocaleString());
+  set('emp-total-mrr-sub', 'of $' + (totalTarget/1000).toFixed(0) + 'K target');
+  set('emp-total-clients', totalClients.toString());
+  set('emp-total-costs', '$' + totalCosts.toLocaleString());
+  set('emp-total-profit', '$' + totalProfit.toLocaleString());
+  set('emp-live-count', liveCount.toString());
+  set('emp-health-score', avgHealth + '/100');
+
+  const profitEl = document.getElementById('emp-total-profit');
+  if (profitEl) profitEl.style.color = totalProfit >= 0 ? 'var(--income)' : 'var(--expense)';
+
+  const pct10k = Math.min(100, (totalMRR / 10000) * 100);
+  const pct50k = Math.min(100, (totalMRR / 50000) * 100);
+  const b10 = document.getElementById('emp-10k-bar'); if (b10) b10.style.width = pct10k + '%';
+  const b50 = document.getElementById('emp-50k-bar'); if (b50) b50.style.width = pct50k + '%';
+  const p10 = document.getElementById('emp-10k-pct'); if (p10) p10.textContent = pct10k.toFixed(1) + '%';
+  const p50 = document.getElementById('emp-50k-pct'); if (p50) p50.textContent = pct50k.toFixed(1) + '%';
+
+  empireUpdateProjections(totalMRR);
+}
+
+function empireUpdateProjections(totalMRR) {
+  const avgGrowth = empireEntities.reduce((s,e) => s + (e.growth||0), 0) / empireEntities.length / 100;
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+  const profitable = empireEntities.filter(e => (e.mrr - e.costs) > 0).length;
+  set('emp-proj-be', profitable.toString());
+  set('emp-proj-be-sub', 'of ' + empireEntities.length + ' entities profitable');
+
+  if (avgGrowth <= 0 || totalMRR <= 0) {
+    set('emp-proj-10k', 'N/A'); set('emp-proj-10k-sub', 'add MRR & growth data');
+    set('emp-proj-50k', 'N/A'); set('emp-proj-50k-sub', 'add MRR & growth data');
+    empireDrawChart(totalMRR, 0);
+    return;
+  }
+
+  function monthsToGoal(cur, target, rate) {
+    if (cur >= target) return 0;
+    return Math.ceil(Math.log(target / cur) / Math.log(1 + rate));
+  }
+
+  const m10k = monthsToGoal(totalMRR, 10000, avgGrowth);
+  const m50k = monthsToGoal(totalMRR, 50000, avgGrowth);
+  set('emp-proj-10k', m10k === 0 ? 'Already There!' : m10k + ' mo');
+  set('emp-proj-10k-sub', m10k === 0 ? 'Empire at $10K+' : 'at ' + (avgGrowth*100).toFixed(1) + '%/mo avg growth');
+  set('emp-proj-50k', m50k === 0 ? 'Already There!' : m50k + ' mo');
+  set('emp-proj-50k-sub', m50k === 0 ? 'Empire at $50K+' : 'at ' + (avgGrowth*100).toFixed(1) + '%/mo avg growth');
+
+  empireDrawChart(totalMRR, avgGrowth);
+}
+
+function empireDrawChart(startMRR, avgGrowth) {
+  const canvas = document.getElementById('empireProjectionChart');
+  if (!canvas) return;
+  const months = 12;
+  const labels = Array.from({length: months+1}, (_,i) => i === 0 ? 'Now' : 'M' + i);
+  const project = (start, rate, n) => Array.from({length:n+1}, (_,i) => Math.round(start * Math.pow(1+rate, i)));
+  const base = project(Math.max(startMRR, 1), avgGrowth, months);
+  const bull = project(Math.max(startMRR, 1), avgGrowth * 1.5, months);
+  const bear = project(Math.max(startMRR, 1), Math.max(0, avgGrowth * 0.5), months);
+
+  if (empireProjectionChart) empireProjectionChart.destroy();
+  empireProjectionChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Base Case', data: base, borderColor: '#f5c842', backgroundColor: 'rgba(245,200,66,0.06)', tension: 0.3, fill: true },
+        { label: 'Bull Case', data: bull, borderColor: '#00e5a0', backgroundColor: 'transparent', tension: 0.3, borderDash: [4,4] },
+        { label: 'Bear Case', data: bear, borderColor: '#ff6584', backgroundColor: 'transparent', tension: 0.3, borderDash: [4,4] },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8888a8', font: { family: 'Space Mono', size: 10 } } } },
+      scales: {
+        x: { grid: { color: '#2a2a3a' }, ticks: { color: '#8888a8', font: { size: 10 } } },
+        y: { grid: { color: '#2a2a3a' }, ticks: { color: '#8888a8', font: { size: 10 },
+          callback: v => '$' + (v >= 1000 ? (v/1000).toFixed(0) + 'K' : v) } }
+      }
+    }
+  });
+}
+
+function empireRenderCard(e, idx) {
+  const profit = (e.mrr||0) - (e.costs||0);
+  const margin = (e.mrr||0) > 0 ? (profit / e.mrr * 100).toFixed(1) : '0.0';
+  const health = empireCalcHealth(e);
+  const pct    = (e.target_mrr||0) > 0 ? Math.min(100, ((e.mrr||0) / e.target_mrr) * 100) : 0;
+
+  return `<div class="empire-card" id="emp-card-${idx}">
+    <div class="empire-card-header">
+      <div>
+        <div class="empire-card-name">${e.emoji || '🏢'} ${e.name}</div>
+        <div class="empire-card-category">${e.category}</div>
+      </div>
+      <button id="emp-pill-${idx}" class="empire-status-pill ${empireStatusClass(e.status)}" onclick="empireCycleStatus(${idx})">${e.status}</button>
+    </div>
+    <div class="empire-metrics">
+      <div class="empire-metric">
+        <div class="empire-metric-label">MRR</div>
+        <div class="empire-metric-value" style="color:var(--accent);">$<input type="number" id="emp-${idx}-mrr" value="${e.mrr||0}" min="0" oninput="empireUpdateCard(${idx})" style="color:var(--accent);width:calc(100% - 12px);"></div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Target MRR</div>
+        <div class="empire-metric-value" style="color:var(--gold);">$<input type="number" id="emp-${idx}-target_mrr" value="${e.target_mrr||0}" min="0" oninput="empireUpdateCard(${idx})" style="color:var(--gold);width:calc(100% - 12px);"></div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Clients</div>
+        <div class="empire-metric-value"><input type="number" id="emp-${idx}-clients" value="${e.clients||0}" min="0" oninput="empireUpdateCard(${idx})"></div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Mo. Costs</div>
+        <div class="empire-metric-value" style="color:var(--expense);">$<input type="number" id="emp-${idx}-costs" value="${e.costs||0}" min="0" oninput="empireUpdateCard(${idx})" style="color:var(--expense);width:calc(100% - 12px);"></div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Net Profit</div>
+        <div id="emp-${idx}-profit" class="empire-metric-value empire-metric-auto ${profit >= 0 ? 'empire-metric-profit-pos' : 'empire-metric-profit-neg'}">$${profit.toLocaleString()}</div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Margin %</div>
+        <div id="emp-${idx}-margin" class="empire-metric-value empire-metric-auto">${margin}%</div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">MoM Growth</div>
+        <div class="empire-metric-value" style="color:var(--accent2);"><input type="number" id="emp-${idx}-growth" value="${e.growth||0}" step="0.1" oninput="empireUpdateCard(${idx})" style="color:var(--accent2);">%</div>
+      </div>
+      <div class="empire-metric">
+        <div class="empire-metric-label">Launch</div>
+        <div class="empire-metric-value"><input type="date" id="emp-${idx}-launch" value="${e.launch||''}" onchange="empireEntities[${idx}].launch=this.value;empireSaveAll()"></div>
+      </div>
+    </div>
+    <div class="empire-sparkline">
+      <div class="empire-sparkline-track"><div class="empire-sparkline-fill" id="emp-${idx}-spark" style="width:${pct}%"></div></div>
+      <div class="empire-sparkline-label">
+        <span id="emp-${idx}-sparkpct">${Math.round(pct)}% of target</span>
+        <span class="empire-health-score" id="emp-${idx}-health" style="color:${empireHealthColor(health)}">❤️ ${health}/100</span>
+      </div>
+    </div>
+    <div class="empire-milestone">🎯 <input type="text" id="emp-${idx}-milestone" value="${(e.milestone||'').replace(/"/g,'&quot;')}" placeholder="Next milestone..." onchange="empireEntities[${idx}].milestone=this.value;empireSaveAll()"></div>
+    <div class="empire-notes" contenteditable="true" id="emp-${idx}-notes" onblur="empireEntities[${idx}].notes=this.textContent;empireSaveAll()">${e.notes||''}</div>
+  </div>`;
+}
+
+function renderEmpireDashboard() {
+  const grid = document.getElementById('empireGrid');
+  if (!grid) return;
+  grid.innerHTML = empireEntities.map((e, i) => empireRenderCard(e, i)).join('');
+  empireUpdateTotals();
+}
+
+async function empireSaveAll() {
+  empireEntities.forEach((e, idx) => {
+    ['mrr','target_mrr','clients','costs','growth'].forEach(f => {
+      const el = document.getElementById('emp-' + idx + '-' + f);
+      if (el) e[f] = parseFloat(el.value) || 0;
+    });
+    ['milestone','launch'].forEach(f => {
+      const el = document.getElementById('emp-' + idx + '-' + f);
+      if (el) e[f] = el.value || '';
+    });
+    const notesEl = document.getElementById('emp-' + idx + '-notes');
+    if (notesEl) e.notes = notesEl.textContent || '';
+  });
+  await saveSetting('empire_entities', empireEntities);
+}
+
+function empireOpenAddModal() {
+  document.getElementById('empireModalOverlay').classList.add('open');
+}
+
+function empireCloseModal() {
+  document.getElementById('empireModalOverlay').classList.remove('open');
+  ['name','emoji','category','milestone','notes'].forEach(f => { const el = document.getElementById('emp-new-' + f); if (el) el.value = ''; });
+  ['mrr','target','clients','costs','growth'].forEach(f => { const el = document.getElementById('emp-new-' + f); if (el) el.value = ''; });
+  const l = document.getElementById('emp-new-launch'); if (l) l.value = '';
+  const s = document.getElementById('emp-new-status'); if (s) s.value = 'PRE-LAUNCH';
+}
+
+async function empireAddEntity() {
+  const get = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const name = get('emp-new-name').trim();
+  if (!name) { showToast('Entity name is required', 'error'); return; }
+  empireEntities.push({
+    id: name.toLowerCase().replace(/[^a-z0-9]/g,'') + '_' + Date.now(),
+    name, emoji: get('emp-new-emoji') || '🏢',
+    category: get('emp-new-category') || 'SaaS',
+    status: get('emp-new-status') || 'PRE-LAUNCH',
+    mrr: parseFloat(get('emp-new-mrr')) || 0,
+    target_mrr: parseFloat(get('emp-new-target')) || 0,
+    clients: parseFloat(get('emp-new-clients')) || 0,
+    costs: parseFloat(get('emp-new-costs')) || 0,
+    growth: parseFloat(get('emp-new-growth')) || 0,
+    milestone: get('emp-new-milestone') || '',
+    launch: get('emp-new-launch') || '',
+    notes: get('emp-new-notes') || '',
+  });
+  empireCloseModal();
+  renderEmpireDashboard();
+  await empireSaveAll();
+  showToast('👑 ' + name + ' added to the empire!', 'success');
+}
 
 </script>
 </body>
