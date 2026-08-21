@@ -19,7 +19,7 @@ DevelopingRiches, Inc. | King James Empire | April 2026
 | **GitHub Repo** | financeiq-kje (jharriGH) |
 | **Deploy File** | index.html (renamed from finance-app-v5.html) |
 | **Stack** | Vanilla HTML + CSS + JavaScript (no framework, no build step) |
-| **AI Model** | claude-sonnet-4-20250514 (Anthropic API) |
+| **AI Model** | claude-sonnet-4-6 (Anthropic API) |
 | **File Size** | 7,626 lines / ~372KB |
 | **Built Date** | April 2026 |
 
@@ -305,7 +305,7 @@ Frontend:    Vanilla HTML5 + CSS3 + JavaScript (ES2020+)
 Charts:      Chart.js 4.4.1 (CDN)
 PDF Parse:   PDF.js 3.11.174 (CDN)
 Database:    Supabase JS v2 (CDN)
-AI:          Anthropic claude-sonnet-4-20250514
+AI:          Anthropic claude-sonnet-4-6
 Hosting:     Cloudflare Pages (free)
 Auth:        Cloudflare Access (Google SSO)
 Domain:      kjfinancez.com → Cloudflare nameservers
@@ -336,7 +336,7 @@ Cloudflare Access (Google SSO gate)
 Cloudflare Pages (index.html)
     ↓ loads in browser
 Browser
-    ├── Calls Anthropic API directly (claude-sonnet-4-20250514)
+    ├── Calls Anthropic API directly (claude-sonnet-4-6)
     └── Calls Supabase API directly (financeiq schema)
 ```
 
