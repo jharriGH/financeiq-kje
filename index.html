@@ -2111,6 +2111,74 @@
     margin-top: 20px;
     position: relative;
   }
+
+  /* ===================== CREDIT SCORE SIMULATOR STYLES ===================== */
+  .sim-card {
+    background: linear-gradient(135deg, #0d1525, #111a2e);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border: 1px solid #1e2a40;
+    transition: border-color 0.2s;
+  }
+  .sim-card:hover { border-color: rgba(0,229,160,0.25); }
+  .sim-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sim-card-title { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); }
+  .sim-impact-badge { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
+  .sim-impact-high { background: rgba(0,229,160,0.15); color: var(--accent); }
+  .sim-impact-med { background: rgba(245,200,66,0.15); color: var(--gold); }
+  .sim-impact-low { background: rgba(108,99,255,0.15); color: var(--accent2); }
+  .sim-slider { width: 100%; accent-color: var(--accent); margin: 8px 0; }
+  .sim-slider-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); font-family: 'Space Mono', monospace; }
+  .sim-pts { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); text-align: right; }
+  .sim-projected-panel { background: linear-gradient(135deg, #0a1628, #0d1f3c); border-radius: 16px; padding: 28px; text-align: center; position: sticky; top: 24px; border: 1px solid rgba(0,229,160,0.2); }
+  .sim-proj-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 6px; }
+  .sim-proj-score { font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
+  .sim-proj-delta { font-family: 'Space Mono', monospace; font-size: 13px; margin-top: 6px; }
+  .sim-util-bar-wrap { margin: 8px 0 4px; }
+  .sim-util-bar { height: 6px; border-radius: 3px; background: #1a2a40; overflow: hidden; }
+  .sim-util-fill { height: 100%; border-radius: 3px; transition: width 0.3s; background: linear-gradient(90deg, var(--accent), var(--gold)); }
+
+  /* ===================== SPS TRACKER STYLES ===================== */
+  .sps-timeline { position: relative; padding-left: 40px; }
+  .sps-timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #7c3aed, #1e2a40); }
+  .sps-stage { position: relative; padding: 0 0 24px; }
+  .sps-stage-dot { position: absolute; left: -32px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; top: 2px; }
+  .sps-stage-dot.done { background: var(--accent); color: #000; }
+  .sps-stage-dot.active { background: var(--gold); color: #000; box-shadow: 0 0 0 4px rgba(245,200,66,0.2); }
+  .sps-stage-dot.pending { background: #1e2a40; color: var(--text2); border: 1px solid #2a3a50; }
+  .sps-stage-body { background: linear-gradient(135deg, #0d1525, #111a2e); border-radius: 10px; padding: 14px 18px; border: 1px solid #1e2a40; }
+  .sps-stage-body.active { border-color: rgba(245,200,66,0.4); }
+  .sps-stage-body.done { border-color: rgba(0,229,160,0.2); }
+  .sps-stage-title { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+  .sps-stage-status { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.5px; }
+  .sps-stage-status.done-st { background: rgba(0,229,160,0.12); color: var(--accent); }
+  .sps-stage-status.active-st { background: rgba(245,200,66,0.12); color: var(--gold); }
+  .sps-stage-status.pending-st { background: #1a2030; color: var(--text2); }
+  .sps-activity-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a2030; font-size: 12px; }
+  .sps-activity-row:last-child { border-bottom: none; }
+  .sps-contact-card { background: linear-gradient(135deg, #1a0d2e, #0d1a2e); border-radius: 10px; padding: 16px 20px; border: 1px solid #2a1a4e; }
+
+  /* ===================== WEALTH PROJECTION STYLES ===================== */
+  .wp-input-group { background: linear-gradient(135deg, #0d1525, #111a2e); border-radius: 12px; padding: 20px 24px; border: 1px solid #1e2a40; margin-bottom: 16px; }
+  .wp-input-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text2); margin-bottom: 10px; }
+  .wp-field { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1a2030; }
+  .wp-field:last-child { border-bottom: none; }
+  .wp-field label { font-size: 12px; color: var(--text2); }
+  .wp-field input { background: #0a1628; border: 1px solid #1e2a40; border-radius: 6px; color: var(--text); padding: 6px 10px; width: 120px; font-size: 13px; font-family: 'Space Mono', monospace; text-align: right; }
+  .wp-output-panel { background: linear-gradient(135deg, #0d1525, #111a2e); border-radius: 12px; padding: 20px 24px; border: 1px solid #1e2a40; }
+  .wp-output-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+  .wp-million-display { background: linear-gradient(135deg, #1a1200, #0d0d00); border-radius: 16px; padding: 28px; text-align: center; border: 2px solid var(--gold); margin-bottom: 24px; }
+  .wp-million-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .wp-million-date { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; color: var(--gold); letter-spacing: -2px; line-height: 1; }
+  .wp-milestone-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a2030; }
+  .wp-milestone-row:last-child { border-bottom: none; }
+  .wp-chart-wrap { height: 240px; position: relative; }
+  .wp-snapshot-table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: 'Space Mono', monospace; }
+  .wp-snapshot-table th { color: var(--text2); padding: 6px 10px; border-bottom: 1px solid #1e2a40; text-align: right; font-size: 10px; letter-spacing: 0.5px; }
+  .wp-snapshot-table th:first-child { text-align: left; }
+  .wp-snapshot-table td { padding: 6px 10px; border-bottom: 1px solid #0f1a2a; text-align: right; }
+  .wp-snapshot-table td:first-child { text-align: left; color: var(--text2); }
+  .wp-snapshot-table tr:hover td { background: #0a1628; }
 </style>
 </head>
 <body>
@@ -2201,6 +2269,9 @@
         <span class="icon">💰</span> Credit → Income
         <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">NEW</span>
       </div>
+      <div class="nav-item" onclick="showPage('credit-simulator')">
+        <span class="icon">🎯</span> Score Simulator
+      </div>
     </div>
 
     <div class="nav-section">
@@ -2230,6 +2301,9 @@
       </div>
       <div class="nav-item" onclick="showPage('forecast')">
         <span class="icon">🔮</span> Forecast
+      </div>
+      <div class="nav-item" onclick="showPage('wealth-projection')">
+        <span class="icon">💎</span> Wealth Projection
       </div>
     </div>
 
@@ -2261,6 +2335,9 @@
       <div class="nav-item" onclick="showPage('loanmodz-advisor')">
         <span class="icon">⚖️</span> SPS Advisor
         <span class="nav-badge" style="background:#7c3aed;color:#fff;">AI</span>
+      </div>
+      <div class="nav-item" onclick="showPage('sps-tracker')">
+        <span class="icon">📊</span> Mod Progress
       </div>
     </div>
 
@@ -4086,6 +4163,375 @@
         <div style="display:flex;gap:10px;justify-content:flex-end;">
           <button class="btn btn-ghost" onclick="empireCloseModal()">Cancel</button>
           <button class="btn btn-primary" onclick="empireAddEntity()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;">Add Entity</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CREDIT SCORE SIMULATOR ============ -->
+    <div class="page" id="page-credit-simulator">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Credit Score <span style="color:var(--accent);">Simulator</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Simulate score-building actions and see projected impact in real time</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="simReset()">↺ Reset</button>
+          <button class="btn btn-primary" onclick="simSaveState()">💾 Save Scenario</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;">
+        <!-- Action Cards -->
+        <div>
+          <!-- Card 1: Reduce Overall Utilization -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">💳 Reduce Credit Utilization</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">30% of your credit score · Currently <span id="simCurUtil">—</span>%</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-high" id="simUtilPts">+0 pts</div>
+            </div>
+            <div class="sim-util-bar-wrap">
+              <div class="sim-util-bar"><div class="sim-util-fill" id="simUtilFill" style="width:30%"></div></div>
+            </div>
+            <input type="range" class="sim-slider" id="simUtilSlider" min="0" max="100" value="30" oninput="simUpdateUtil(this.value)">
+            <div class="sim-slider-row"><span>0% (ideal)</span><span>Target: <strong id="simUtilTarget">30</strong>%</span><span>100%</span></div>
+          </div>
+
+          <!-- Card 2: Pay Down Amex -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">💳 Pay Down Amex ($2,500 limit)</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">Current balance: $850 · Utilization: 34%</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-high" id="simAmexPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simAmexSlider" min="0" max="850" step="50" value="0" oninput="simUpdateCard('amex', this.value)">
+            <div class="sim-slider-row"><span>$0</span><span>Pay: <strong>$<span id="simAmexPay">0</span></strong></span><span>$850 (full payoff)</span></div>
+          </div>
+
+          <!-- Card 3: Pay Down Barclaycard -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">💳 Pay Down Barclaycard ($1,500 limit)</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">Current balance: $400 · Utilization: 27%</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-med" id="simBarcPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simBarcSlider" min="0" max="400" step="50" value="0" oninput="simUpdateCard('barc', this.value)">
+            <div class="sim-slider-row"><span>$0</span><span>Pay: <strong>$<span id="simBarcPay">0</span></strong></span><span>$400 (full payoff)</span></div>
+          </div>
+
+          <!-- Card 4: Request Credit Limit Increase -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">📈 Request Credit Limit Increase</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">Lowers utilization without paying down balance</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-med" id="simCliPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simCliSlider" min="0" max="5000" step="500" value="0" oninput="simUpdateCli(this.value)">
+            <div class="sim-slider-row"><span>$0</span><span>Add: <strong>$<span id="simCliAmt">0</span></strong> limit</span><span>+$5,000</span></div>
+          </div>
+
+          <!-- Card 5: Perfect Payment Streak -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">✅ Perfect Payment History</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">35% of score · Most important factor</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-high" id="simPayPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simPaySlider" min="0" max="24" value="0" oninput="simUpdatePayment(this.value)">
+            <div class="sim-slider-row"><span>0 months</span><span><strong id="simPayMo">0</strong> months on-time</span><span>24 months</span></div>
+          </div>
+
+          <!-- Card 6: Remove Negative Items -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">🗑️ Remove Negative Items</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">Collections, late payments, charge-offs</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-high" id="simNegPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simNegSlider" min="0" max="5" value="0" oninput="simUpdateNeg(this.value)">
+            <div class="sim-slider-row"><span>0</span><span><strong id="simNegCount">0</strong> items removed</span><span>5 items</span></div>
+          </div>
+
+          <!-- Card 7: Authorized User Tradeline -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">👤 Authorized User Tradeline</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">Borrow someone's credit history &amp; available limit</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-med" id="simAuPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simAuSlider" min="0" max="20000" step="1000" value="0" oninput="simUpdateAu(this.value)">
+            <div class="sim-slider-row"><span>$0</span><span>Add: <strong>$<span id="simAuAmt">0</span></strong> limit</span><span>$20,000</span></div>
+          </div>
+
+          <!-- Card 8: Dispute &amp; Remove Hard Inquiries -->
+          <div class="sim-card" style="margin-bottom:16px;">
+            <div class="sim-card-header">
+              <div>
+                <div class="sim-card-title">🔍 Remove Hard Inquiries</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px;">10% of score · Each inquiry costs ~5 pts</div>
+              </div>
+              <div class="sim-impact-badge sim-impact-low" id="simInqPts">+0 pts</div>
+            </div>
+            <input type="range" class="sim-slider" id="simInqSlider" min="0" max="8" value="0" oninput="simUpdateInq(this.value)">
+            <div class="sim-slider-row"><span>0</span><span><strong id="simInqCount">0</strong> inquiries removed</span><span>8</span></div>
+          </div>
+        </div>
+
+        <!-- Projected Score Panel -->
+        <div>
+          <div class="sim-projected-panel">
+            <div class="sim-proj-label">Current Score</div>
+            <div class="sim-proj-score" id="simCurScore" style="color:var(--score-fair);">680</div>
+            <div style="margin:16px 0 8px;border-top:1px solid #1e2a40;padding-top:16px;">
+              <div class="sim-proj-label">Projected Score</div>
+              <div class="sim-proj-score" id="simProjScore" style="color:var(--accent);">680</div>
+              <div class="sim-proj-delta" id="simDelta" style="color:var(--text2);">No changes yet</div>
+            </div>
+            <div style="margin:16px 0 8px;border-top:1px solid #1e2a40;padding-top:16px;">
+              <canvas id="simGaugeCanvas" width="200" height="110"></canvas>
+            </div>
+            <div style="margin-top:12px;border-top:1px solid #1e2a40;padding-top:12px;">
+              <div class="sim-proj-label" style="margin-bottom:8px;">Path to 800</div>
+              <div id="simPath800" style="font-size:12px;color:var(--text2);line-height:1.7;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SPS MODIFICATION PROGRESS TRACKER ============ -->
+    <div class="page" id="page-sps-tracker">
+      <div class="topbar">
+        <div>
+          <div class="page-title">SPS <span style="color:#7c3aed;">Modification</span> Tracker</div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">12-Stage Progress Timeline · $545K + $15K Loans</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="spsAddActivity()">+ Log Activity</button>
+          <button class="btn btn-primary" style="background:#7c3aed;border:none;" onclick="spsAdvanceStage()">→ Advance Stage</button>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+        <div class="lm-stat-card" style="border:1px solid #7c3aed33;">
+          <div class="lm-stat-icon">📅</div>
+          <div class="lm-stat-val" style="color:#7c3aed;" id="spsDaysIn">1</div>
+          <div class="lm-stat-lbl">Days in Process</div>
+        </div>
+        <div class="lm-stat-card" style="border:1px solid #ffd70033;">
+          <div class="lm-stat-icon">🎯</div>
+          <div class="lm-stat-val" style="color:#ffd700;" id="spsCurrentStage">1</div>
+          <div class="lm-stat-lbl">Current Stage</div>
+        </div>
+        <div class="lm-stat-card" style="border:1px solid #00e67633;">
+          <div class="lm-stat-icon">📁</div>
+          <div class="lm-stat-val" style="color:#00e676;" id="spsDocCount">0</div>
+          <div class="lm-stat-lbl">Docs Submitted</div>
+        </div>
+        <div class="lm-stat-card" style="border:1px solid #00d4ff33;">
+          <div class="lm-stat-icon">⏱️</div>
+          <div class="lm-stat-val" style="color:#00d4ff;font-size:18px;" id="spsEstCompletion">~90 days</div>
+          <div class="lm-stat-lbl">Est. Completion</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;">
+        <!-- Timeline -->
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:16px;">12-Stage Modification Timeline</div>
+          <div class="sps-timeline" id="spsTimeline"></div>
+        </div>
+
+        <!-- Right Panel -->
+        <div>
+          <!-- Activity Log -->
+          <div style="background:linear-gradient(135deg,#0d1525,#111a2e);border-radius:12px;padding:20px;border:1px solid #1e2a40;margin-bottom:20px;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:12px;">Activity Log</div>
+            <div id="spsActivityLog" style="max-height:280px;overflow-y:auto;"></div>
+          </div>
+
+          <!-- SPS Contact Quick-Reference -->
+          <div class="sps-contact-card">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#a78bfa;margin-bottom:12px;">SPS Contact Quick-Reference</div>
+            <div style="font-size:12px;line-height:1.9;color:var(--text2);">
+              <div>📞 <strong style="color:var(--text);">SPS Loss Mitigation</strong></div>
+              <div style="margin-left:20px;">(866) 917-1702</div>
+              <div>📞 <strong style="color:var(--text);">SPS Customer Service</strong></div>
+              <div style="margin-left:20px;">(800) 258-8602</div>
+              <div>📠 <strong style="color:var(--text);">Fax Documents To</strong></div>
+              <div style="margin-left:20px;">(801) 269-3790</div>
+              <div>🌐 <strong style="color:var(--text);">Portal</strong></div>
+              <div style="margin-left:20px;">myaccount.spservicing.com</div>
+              <div style="margin-top:8px;padding:8px;background:rgba(124,58,237,0.08);border-radius:6px;font-size:11px;color:#a78bfa;">
+                Best call window: Tue–Thu 9am–3pm PT.<br>Always ask for a reference # and rep name.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Input Modal (inline) -->
+      <div id="spsActivityInput" style="display:none;background:linear-gradient(135deg,#0d1525,#111a2e);border-radius:12px;padding:20px;border:1px solid #a78bfa44;margin-top:20px;">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:#a78bfa;margin-bottom:12px;">LOG ACTIVITY</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;">
+          <div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Activity</div>
+            <input id="spsActNote" class="settings-input" placeholder="e.g. Called SPS, faxed hardship letter..." style="width:100%;">
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Docs submitted</div>
+            <input id="spsActDocs" type="number" class="settings-input" placeholder="0" min="0" style="width:100%;">
+          </div>
+          <button class="btn btn-primary" style="background:#7c3aed;border:none;" onclick="spsLogActivity()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ WEALTH PROJECTION CALCULATOR ============ -->
+    <div class="page" id="page-wealth-projection">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Wealth <span style="color:var(--gold);">Projection</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">60-Month Net Worth Engine · 3-Scenario Model</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="wpReset()">↺ Reset</button>
+          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="wpCalculate()">⚡ Calculate</button>
+        </div>
+      </div>
+
+      <!-- Million Dollar Date (top banner) -->
+      <div class="wp-million-display" id="wpMillionBanner">
+        <div class="wp-million-label">YOUR MILLION DOLLAR DATE</div>
+        <div class="wp-million-date" id="wpMillionDate">Enter your numbers below</div>
+        <div style="font-size:13px;color:rgba(245,200,66,0.7);margin-top:8px;" id="wpMillionSub">Optimistic scenario — based on consistent execution</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start;">
+        <!-- Inputs -->
+        <div>
+          <div class="wp-input-group">
+            <div class="wp-input-label">💼 KJE Business Income</div>
+            <div class="wp-field">
+              <label>Current Monthly Revenue</label>
+              <input type="number" id="wpBizRev" value="0" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Monthly Growth Rate (%)</label>
+              <input type="number" id="wpBizGrowth" value="5" step="0.5" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Monthly Business Expenses</label>
+              <input type="number" id="wpBizExp" value="0" oninput="wpCalculate()">
+            </div>
+          </div>
+
+          <div class="wp-input-group">
+            <div class="wp-input-label">💳 Credit Leverage Strategies</div>
+            <div class="wp-field">
+              <label>0% APR Cash in HYSA (monthly yield)</label>
+              <input type="number" id="wpHysa" value="0" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Rental Arbitrage Monthly Profit</label>
+              <input type="number" id="wpRental" value="0" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Other Credit Leverage Income</label>
+              <input type="number" id="wpCreditOther" value="0" oninput="wpCalculate()">
+            </div>
+          </div>
+
+          <div class="wp-input-group">
+            <div class="wp-input-label">💸 Debt Reduction</div>
+            <div class="wp-field">
+              <label>Current Total Debt</label>
+              <input type="number" id="wpTotalDebt" value="0" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Monthly Debt Paydown (extra)</label>
+              <input type="number" id="wpDebtPaydown" value="0" oninput="wpCalculate()">
+            </div>
+          </div>
+
+          <div class="wp-input-group">
+            <div class="wp-input-label">🏠 SPS Modification Impact</div>
+            <div class="wp-field">
+              <label>Current Monthly Payment</label>
+              <input type="number" id="wpSpsCurrent" value="3200" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Expected Modified Payment</label>
+              <input type="number" id="wpSpsModified" value="2200" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Months Until Modification Active</label>
+              <input type="number" id="wpSpsMonths" value="6" oninput="wpCalculate()">
+            </div>
+          </div>
+
+          <div class="wp-input-group">
+            <div class="wp-input-label">⭐ Credit Score Impact</div>
+            <div class="wp-field">
+              <label>Current Credit Score</label>
+              <input type="number" id="wpCurScore" value="680" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Target Score (12 months)</label>
+              <input type="number" id="wpTargetScore" value="750" oninput="wpCalculate()">
+            </div>
+            <div class="wp-field">
+              <label>Expected New Credit Lines ($)</label>
+              <input type="number" id="wpNewCredit" value="0" oninput="wpCalculate()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div>
+          <!-- Net Worth Chart -->
+          <div class="wp-output-panel" style="margin-bottom:20px;">
+            <div class="wp-output-title">📈 Net Worth Projection — 3 Scenarios</div>
+            <div class="wp-chart-wrap"><canvas id="wpNetWorthChart"></canvas></div>
+          </div>
+
+          <!-- Monthly Income Breakdown -->
+          <div class="wp-output-panel" style="margin-bottom:20px;">
+            <div class="wp-output-title">💰 Monthly Income Breakdown (Month 60)</div>
+            <div id="wpIncomeBreakdown" style="display:flex;gap:12px;flex-wrap:wrap;"></div>
+          </div>
+
+          <!-- Milestone Timeline -->
+          <div class="wp-output-panel" style="margin-bottom:20px;">
+            <div class="wp-output-title">🏆 Milestone Timeline</div>
+            <div id="wpMilestones"></div>
+          </div>
+
+          <!-- Monthly Snapshot Table -->
+          <div class="wp-output-panel">
+            <div class="wp-output-title">📋 Monthly Snapshot (Every 6 Months)</div>
+            <div style="overflow-x:auto;">
+              <table class="wp-snapshot-table" id="wpSnapshotTable">
+                <thead><tr><th>Month</th><th>Monthly Income</th><th>Debt Remaining</th><th>Net Worth (Base)</th><th>Net Worth (Opt.)</th></tr></thead>
+                <tbody id="wpSnapshotBody"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -6825,6 +7271,11 @@ function showPage(name) {
     }
   }
 
+  // New feature pages
+  if (name === 'credit-simulator') setTimeout(renderScoreSimulator, 50);
+  if (name === 'sps-tracker') setTimeout(renderSpsTracker, 50);
+  if (name === 'wealth-projection') setTimeout(renderWealthProjection, 50);
+
   // KJE Empire
   if (name === 'empire') setTimeout(renderEmpireDashboard, 50);
 }
@@ -9221,6 +9672,579 @@ async function empireAddEntity() {
   renderEmpireDashboard();
   await empireSaveAll();
   showToast('👑 ' + name + ' added to the empire!', 'success');
+}
+
+// ============================================================
+// CREDIT SCORE SIMULATOR
+// ============================================================
+const simState = {
+  baseScore: 680,
+  cards: {
+    amex:  { limit: 2500, bal: 850 },
+    barc:  { limit: 1500, bal: 400 },
+    creditone: { limit: 750, bal: 200 },
+    firstsav:  { limit: 500, bal: 150 },
+    fsb:   { limit: 500, bal: 100 }
+  },
+  utilTarget: null,
+  amexPay: 0,
+  barcPay: 0,
+  cliAdd: 0,
+  payMonths: 0,
+  negRemoved: 0,
+  auAdd: 0,
+  inqRemoved: 0
+};
+
+function simTotalLimit() {
+  return Object.values(simState.cards).reduce((s, c) => s + c.limit, 0) + simState.cliAdd + simState.auAdd;
+}
+function simTotalBal() {
+  return (simState.cards.amex.bal - simState.amexPay) +
+         (simState.cards.barc.bal - simState.barcPay) +
+         simState.cards.creditone.bal + simState.cards.firstsav.bal + simState.cards.fsb.bal;
+}
+function simCurrentUtil() {
+  const origLimit = Object.values(simState.cards).reduce((s, c) => s + c.limit, 0);
+  const origBal   = Object.values(simState.cards).reduce((s, c) => s + c.bal, 0);
+  return Math.round(origBal / origLimit * 100);
+}
+
+function simCalcProjected() {
+  let score = simState.baseScore;
+  const origUtil = simCurrentUtil();
+  const totalLimit = simTotalLimit();
+  const totalBal = simTotalBal();
+  const effUtil = totalLimit > 0 ? totalBal / totalLimit * 100 : origUtil;
+
+  const utilDelta = origUtil - (simState.utilTarget !== null ? simState.utilTarget : effUtil);
+  const utilPts = Math.max(0, Math.min(50, utilDelta * 0.9));
+
+  const amexOrigUtil = simState.cards.amex.bal / simState.cards.amex.limit;
+  const amexNewUtil  = (simState.cards.amex.bal - simState.amexPay) / simState.cards.amex.limit;
+  const amexPts = Math.max(0, Math.min(20, (amexOrigUtil - amexNewUtil) * 55));
+
+  const barcOrigUtil = simState.cards.barc.bal / simState.cards.barc.limit;
+  const barcNewUtil  = (simState.cards.barc.bal - simState.barcPay) / simState.cards.barc.limit;
+  const barcPts  = Math.max(0, Math.min(15, (barcOrigUtil - barcNewUtil) * 45));
+
+  const origUtilRate = Object.values(simState.cards).reduce((s,c)=>s+c.bal,0) / Object.values(simState.cards).reduce((s,c)=>s+c.limit,0);
+  const newUtilAfterCli = totalLimit > 0 ? totalBal / totalLimit : origUtilRate;
+  const cliPts = Math.max(0, Math.min(15, (origUtilRate - newUtilAfterCli) * 50));
+
+  const payPts = Math.min(40, simState.payMonths * 2);
+  const negPts = Math.min(60, simState.negRemoved * 15);
+  const auPts  = Math.min(20, simState.auAdd / 1000 * 2);
+  const inqPts = Math.min(25, simState.inqRemoved * 5);
+
+  score += utilPts + amexPts + barcPts + cliPts + payPts + negPts + auPts + inqPts;
+  score = Math.min(850, Math.round(score));
+
+  return {
+    projected: score,
+    pts: { util: Math.round(utilPts), amex: Math.round(amexPts), barc: Math.round(barcPts),
+           cli: Math.round(cliPts), pay: Math.round(payPts), neg: Math.round(negPts),
+           au: Math.round(auPts), inq: Math.round(inqPts) },
+    effUtil: Math.round(effUtil)
+  };
+}
+
+function simRefresh() {
+  const { projected, pts, effUtil } = simCalcProjected();
+  const delta = projected - simState.baseScore;
+  const col = scoreColor(projected);
+
+  const projEl = document.getElementById('simProjScore');
+  if (projEl) { projEl.textContent = projected; projEl.style.color = col; }
+  const curEl = document.getElementById('simCurScore');
+  if (curEl) { curEl.textContent = simState.baseScore; curEl.style.color = scoreColor(simState.baseScore); }
+
+  const dEl = document.getElementById('simDelta');
+  if (dEl) {
+    if (delta > 0) { dEl.textContent = '+' + delta + ' pts projected'; dEl.style.color = 'var(--accent)'; }
+    else if (delta === 0) { dEl.textContent = 'No change yet'; dEl.style.color = 'var(--text2)'; }
+    else { dEl.textContent = delta + ' pts'; dEl.style.color = 'var(--score-bad)'; }
+  }
+
+  drawGauge('simGaugeCanvas', projected);
+
+  const p800El = document.getElementById('simPath800');
+  if (p800El) {
+    const gap = Math.max(0, 800 - projected);
+    if (gap === 0) {
+      p800El.innerHTML = '<span style="color:var(--accent);">🎉 You\'ve reached 800+! Keep the momentum.</span>';
+    } else {
+      const tips = [];
+      if (pts.neg < 60 && simState.negRemoved < 5) tips.push('Remove ' + (5 - simState.negRemoved) + ' more negative items (+' + (5 - simState.negRemoved) * 15 + ' pts)');
+      if (pts.pay < 40 && simState.payMonths < 24) tips.push((24 - simState.payMonths) + ' more months of perfect payments (+' + (24 - simState.payMonths) * 2 + ' pts)');
+      if (pts.amex < 20) tips.push('Pay off Amex fully (+20 pts max)');
+      if (pts.util < 50 && effUtil > 10) tips.push('Drop utilization to under 10% (+' + Math.round((effUtil - 10) * 0.9) + ' pts)');
+      p800El.innerHTML = '<span style="color:var(--gold);">' + gap + ' pts to go</span><br><br>' +
+        (tips.length ? tips.map(t => '• ' + t).join('<br>') : 'Keep chipping away — score builds over time.');
+    }
+  }
+
+  ['util','amex','barc','cli','pay','neg','au','inq'].forEach(k => {
+    const el = document.getElementById('sim' + k.charAt(0).toUpperCase() + k.slice(1) + 'Pts');
+    if (el) el.textContent = '+' + pts[k] + ' pts';
+  });
+
+  const utilFill = document.getElementById('simUtilFill');
+  if (utilFill) utilFill.style.width = effUtil + '%';
+  const curUtilEl = document.getElementById('simCurUtil');
+  if (curUtilEl) curUtilEl.textContent = simCurrentUtil();
+}
+
+function simUpdateUtil(val) {
+  val = parseInt(val);
+  simState.utilTarget = val;
+  const el = document.getElementById('simUtilTarget');
+  if (el) el.textContent = val;
+  const fill = document.getElementById('simUtilFill');
+  if (fill) fill.style.width = val + '%';
+  simRefresh();
+}
+function simUpdateCard(card, val) {
+  val = parseInt(val);
+  if (card === 'amex') { simState.amexPay = val; const el = document.getElementById('simAmexPay'); if (el) el.textContent = val; }
+  if (card === 'barc') { simState.barcPay = val; const el = document.getElementById('simBarcPay'); if (el) el.textContent = val; }
+  simRefresh();
+}
+function simUpdateCli(val) {
+  simState.cliAdd = parseInt(val);
+  const el = document.getElementById('simCliAmt');
+  if (el) el.textContent = parseInt(val).toLocaleString();
+  simRefresh();
+}
+function simUpdatePayment(val) {
+  simState.payMonths = parseInt(val);
+  const el = document.getElementById('simPayMo');
+  if (el) el.textContent = val;
+  simRefresh();
+}
+function simUpdateNeg(val) {
+  simState.negRemoved = parseInt(val);
+  const el = document.getElementById('simNegCount');
+  if (el) el.textContent = val;
+  simRefresh();
+}
+function simUpdateAu(val) {
+  simState.auAdd = parseInt(val);
+  const el = document.getElementById('simAuAmt');
+  if (el) el.textContent = parseInt(val).toLocaleString();
+  simRefresh();
+}
+function simUpdateInq(val) {
+  simState.inqRemoved = parseInt(val);
+  const el = document.getElementById('simInqCount');
+  if (el) el.textContent = val;
+  simRefresh();
+}
+
+function simReset() {
+  simState.utilTarget = null;
+  simState.amexPay = 0; simState.barcPay = 0;
+  simState.cliAdd = 0; simState.payMonths = 0;
+  simState.negRemoved = 0; simState.auAdd = 0; simState.inqRemoved = 0;
+  ['simUtilSlider','simAmexSlider','simBarcSlider','simCliSlider','simPaySlider','simNegSlider','simAuSlider','simInqSlider'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = 0;
+  });
+  simRefresh();
+}
+
+async function simSaveState() {
+  const { projected } = simCalcProjected();
+  const state = {
+    baseScore: simState.baseScore,
+    utilTarget: simState.utilTarget,
+    amexPay: simState.amexPay,
+    barcPay: simState.barcPay,
+    cliAdd: simState.cliAdd,
+    payMonths: simState.payMonths,
+    negRemoved: simState.negRemoved,
+    auAdd: simState.auAdd,
+    inqRemoved: simState.inqRemoved,
+    projectedScore: projected,
+    savedAt: new Date().toISOString()
+  };
+  await saveSetting('score_simulator_state', state);
+  showToast('🎯 Scenario saved! Projected: ' + projected, 'success');
+}
+
+async function renderScoreSimulator() {
+  simState.baseScore = creditState.personalScore || 680;
+  const saved = await loadSetting('score_simulator_state', null);
+  if (saved && typeof saved === 'object') {
+    simState.utilTarget = saved.utilTarget || null;
+    simState.amexPay    = saved.amexPay || 0;
+    simState.barcPay    = saved.barcPay || 0;
+    simState.cliAdd     = saved.cliAdd || 0;
+    simState.payMonths  = saved.payMonths || 0;
+    simState.negRemoved = saved.negRemoved || 0;
+    simState.auAdd      = saved.auAdd || 0;
+    simState.inqRemoved = saved.inqRemoved || 0;
+    const restoreSlider = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+    restoreSlider('simUtilSlider', simState.utilTarget || simCurrentUtil());
+    restoreSlider('simAmexSlider', simState.amexPay);
+    restoreSlider('simBarcSlider', simState.barcPay);
+    restoreSlider('simCliSlider', simState.cliAdd);
+    restoreSlider('simPaySlider', simState.payMonths);
+    restoreSlider('simNegSlider', simState.negRemoved);
+    restoreSlider('simAuSlider', simState.auAdd);
+    restoreSlider('simInqSlider', simState.inqRemoved);
+  }
+  simRefresh();
+}
+
+// ============================================================
+// SPS MODIFICATION PROGRESS TRACKER
+// ============================================================
+const SPS_STAGES = [
+  { num: 1,  title: 'Initial Contact',          desc: 'First call to SPS loss mitigation to initiate mod request' },
+  { num: 2,  title: 'Application Submitted',    desc: 'Modification application form submitted to SPS' },
+  { num: 3,  title: 'Document Collection',      desc: 'Hardship letter, bank statements, tax returns, pay stubs' },
+  { num: 4,  title: 'Document Review',          desc: 'SPS reviews submitted package for completeness' },
+  { num: 5,  title: 'Financial Analysis',       desc: 'Underwriter reviews income, expenses, and affordability' },
+  { num: 6,  title: 'Hardship Review',          desc: 'Hardship circumstances evaluated against investor guidelines' },
+  { num: 7,  title: 'Trial Period Offer',       desc: 'SPS issues trial payment plan — typically 3 months' },
+  { num: 8,  title: 'Trial Payments',           desc: 'Making all 3 trial payments on time, as agreed' },
+  { num: 9,  title: 'Review Complete',          desc: 'SPS confirms trial success, sends to final approval queue' },
+  { num: 10, title: 'Modification Approval',   desc: 'Loan modification formally approved by investor/servicer' },
+  { num: 11, title: 'Legal Review & Signing',  desc: 'Documents prepared, reviewed by attorney, signed' },
+  { num: 12, title: 'New Payment Begins',       desc: 'Modified loan is live — new lower payment effective' }
+];
+
+const spsTrackerState = {
+  currentStage: 1,
+  stageStatuses: SPS_STAGES.map((s, i) => i === 0 ? 'active' : 'pending'),
+  startDate: new Date().toISOString().split('T')[0],
+  docCount: 0,
+  activities: []
+};
+
+async function spsLoadState() {
+  const saved = await loadSetting('sps_tracker_data', null);
+  if (saved && typeof saved === 'object') {
+    spsTrackerState.currentStage  = saved.currentStage || 1;
+    spsTrackerState.stageStatuses = saved.stageStatuses || spsTrackerState.stageStatuses;
+    spsTrackerState.startDate     = saved.startDate || spsTrackerState.startDate;
+    spsTrackerState.docCount      = saved.docCount || 0;
+    spsTrackerState.activities    = saved.activities || [];
+  }
+}
+
+async function spsSaveState() {
+  await saveSetting('sps_tracker_data', {
+    currentStage:  spsTrackerState.currentStage,
+    stageStatuses: spsTrackerState.stageStatuses,
+    startDate:     spsTrackerState.startDate,
+    docCount:      spsTrackerState.docCount,
+    activities:    spsTrackerState.activities
+  });
+}
+
+function spsDaysIn() {
+  const start = new Date(spsTrackerState.startDate);
+  return Math.max(1, Math.floor((Date.now() - start.getTime()) / 86400000));
+}
+
+function spsEstDays() {
+  const remaining = 12 - spsTrackerState.currentStage;
+  return '~' + (remaining * 8) + ' days';
+}
+
+function spsRenderTimeline() {
+  const container = document.getElementById('spsTimeline');
+  if (!container) return;
+  container.innerHTML = SPS_STAGES.map((stage, i) => {
+    const status = spsTrackerState.stageStatuses[i] || 'pending';
+    const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : 'pending';
+    const dotLabel = status === 'done' ? '✓' : stage.num;
+    const bodyClass = status === 'done' ? 'done' : status === 'active' ? 'active' : '';
+    const statusLabel = status === 'done' ? 'COMPLETE' : status === 'active' ? 'IN PROGRESS' : 'NOT STARTED';
+    const statusClass = status === 'done' ? 'done-st' : status === 'active' ? 'active-st' : 'pending-st';
+    return `<div class="sps-stage">
+      <div class="sps-stage-dot ${dotClass}">${dotLabel}</div>
+      <div class="sps-stage-body ${bodyClass}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div class="sps-stage-title" style="color:${status==='active'?'var(--gold)':status==='done'?'var(--accent)':'var(--text)'}">${stage.title}</div>
+          <span class="sps-stage-status ${statusClass}">${statusLabel}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);">${stage.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function spsRenderActivity() {
+  const log = document.getElementById('spsActivityLog');
+  if (!log) return;
+  if (!spsTrackerState.activities.length) {
+    log.innerHTML = '<div style="color:var(--text2);font-size:12px;text-align:center;padding:20px;">No activities logged yet.<br>Use "+ Log Activity" to track calls, faxes, and submissions.</div>';
+    return;
+  }
+  log.innerHTML = [...spsTrackerState.activities].reverse().map(a => `
+    <div class="sps-activity-row">
+      <div style="color:var(--text2);white-space:nowrap;min-width:80px;">${a.date}</div>
+      <div style="flex:1;">${a.note}</div>
+      ${a.docs ? '<div style="color:var(--accent);white-space:nowrap;">+' + a.docs + ' docs</div>' : ''}
+    </div>`).join('');
+}
+
+function spsUpdateStats() {
+  const dEl = document.getElementById('spsDaysIn');
+  if (dEl) dEl.textContent = spsDaysIn();
+  const sEl = document.getElementById('spsCurrentStage');
+  if (sEl) sEl.textContent = spsTrackerState.currentStage;
+  const docEl = document.getElementById('spsDocCount');
+  if (docEl) docEl.textContent = spsTrackerState.docCount;
+  const estEl = document.getElementById('spsEstCompletion');
+  if (estEl) estEl.textContent = spsEstDays();
+}
+
+async function renderSpsTracker() {
+  await spsLoadState();
+  spsRenderTimeline();
+  spsRenderActivity();
+  spsUpdateStats();
+}
+
+async function spsAdvanceStage() {
+  const cur = spsTrackerState.currentStage;
+  if (cur >= 12) { showToast('🎉 Modification complete! All 12 stages done.', 'success'); return; }
+  spsTrackerState.stageStatuses[cur - 1] = 'done';
+  spsTrackerState.currentStage = cur + 1;
+  if (cur < 12) spsTrackerState.stageStatuses[cur] = 'active';
+  spsTrackerState.activities.push({
+    date: new Date().toLocaleDateString(),
+    note: 'Advanced to Stage ' + (cur + 1) + ': ' + SPS_STAGES[cur].title,
+    docs: 0
+  });
+  await spsSaveState();
+  spsRenderTimeline();
+  spsRenderActivity();
+  spsUpdateStats();
+  showToast('📊 Stage ' + (cur + 1) + ' — ' + SPS_STAGES[cur].title, 'success');
+}
+
+function spsAddActivity() {
+  const inp = document.getElementById('spsActivityInput');
+  if (inp) inp.style.display = inp.style.display === 'none' ? '' : 'none';
+}
+
+async function spsLogActivity() {
+  const note = (document.getElementById('spsActNote') || {}).value || '';
+  const docs = parseInt((document.getElementById('spsActDocs') || {}).value || 0);
+  if (!note.trim()) { showToast('Enter an activity note', 'error'); return; }
+  spsTrackerState.activities.push({ date: new Date().toLocaleDateString(), note: note.trim(), docs });
+  spsTrackerState.docCount += docs;
+  const noteEl = document.getElementById('spsActNote');
+  const docsEl = document.getElementById('spsActDocs');
+  if (noteEl) noteEl.value = '';
+  if (docsEl) docsEl.value = '';
+  const inp = document.getElementById('spsActivityInput');
+  if (inp) inp.style.display = 'none';
+  await spsSaveState();
+  spsRenderActivity();
+  spsUpdateStats();
+  showToast('✅ Activity logged', 'success');
+}
+
+// ============================================================
+// WEALTH PROJECTION CALCULATOR
+// ============================================================
+function wpGetInputs() {
+  const g = id => parseFloat(document.getElementById(id)?.value || 0) || 0;
+  return {
+    bizRev:       g('wpBizRev'),
+    bizGrowth:    g('wpBizGrowth') / 100,
+    bizExp:       g('wpBizExp'),
+    hysa:         g('wpHysa'),
+    rental:       g('wpRental'),
+    creditOther:  g('wpCreditOther'),
+    totalDebt:    g('wpTotalDebt'),
+    debtPaydown:  g('wpDebtPaydown'),
+    spsCurrent:   g('wpSpsCurrent'),
+    spsModified:  g('wpSpsModified'),
+    spsMonths:    g('wpSpsMonths'),
+    curScore:     g('wpCurScore'),
+    targetScore:  g('wpTargetScore'),
+    newCredit:    g('wpNewCredit')
+  };
+}
+
+function wpProject60Months(inp, scenario) {
+  const growthMult = scenario === 'opt' ? 1.3 : scenario === 'cons' ? 0.6 : 1.0;
+  let debt    = inp.totalDebt;
+  let netWorth = -debt;
+  let months  = [];
+
+  for (let m = 1; m <= 60; m++) {
+    const bizInc = inp.bizRev * Math.pow(1 + inp.bizGrowth * growthMult, m - 1);
+    const spsMonthSaving = m > inp.spsMonths ? inp.spsCurrent - inp.spsModified : 0;
+    const creditInc = (inp.hysa + inp.rental + inp.creditOther) * growthMult;
+    const totalInc  = bizInc + creditInc + spsMonthSaving;
+    const totalExp  = inp.bizExp + (m <= inp.spsMonths ? inp.spsCurrent : inp.spsModified);
+    const net       = totalInc - totalExp;
+    const paydown   = Math.max(0, inp.debtPaydown + (net > 0 ? net * 0.3 : 0));
+    debt = Math.max(0, debt - paydown);
+    netWorth += net > 0 ? net * 0.7 : net;
+    months.push({ m, income: Math.round(totalInc), debt: Math.round(debt), netWorth: Math.round(netWorth) });
+  }
+  return months;
+}
+
+function wpMillionDate(optMonths) {
+  const hitMonth = optMonths.find(m => m.netWorth >= 1000000);
+  if (!hitMonth) return null;
+  const d = new Date();
+  d.setMonth(d.getMonth() + hitMonth.m);
+  return { date: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }), month: hitMonth.m };
+}
+
+function wpCalculate() {
+  const inp = wpGetInputs();
+  const base = wpProject60Months(inp, 'base');
+  const opt  = wpProject60Months(inp, 'opt');
+  const cons = wpProject60Months(inp, 'cons');
+
+  // Million dollar date
+  const hitBanner = document.getElementById('wpMillionBanner');
+  const hitDate   = document.getElementById('wpMillionDate');
+  const hitSub    = document.getElementById('wpMillionSub');
+  const hit = wpMillionDate(opt);
+  if (hit && hitDate) {
+    hitDate.textContent = hit.date;
+    if (hitSub) hitSub.textContent = 'Month ' + hit.month + ' — Optimistic scenario at current growth rate';
+    if (hitBanner) hitBanner.style.borderColor = 'var(--gold)';
+  } else if (hitDate) {
+    hitDate.textContent = 'Needs more input';
+    if (hitSub) hitSub.textContent = 'Add business revenue and growth targets above';
+  }
+
+  // Net worth chart
+  destroyChart('wpNetWorthChart');
+  const ctx = document.getElementById('wpNetWorthChart');
+  if (ctx) {
+    const labels = Array.from({ length: 60 }, (_, i) => 'Mo ' + (i + 1));
+    const milLine = Array(60).fill(1000000);
+    appState.charts['wpNetWorthChart'] = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { label: 'Optimistic', data: opt.map(m => m.netWorth), borderColor: '#00e5a0', backgroundColor: 'rgba(0,229,160,0.05)', fill: false, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+          { label: 'Base Case', data: base.map(m => m.netWorth), borderColor: '#6c63ff', backgroundColor: 'rgba(108,99,255,0.05)', fill: false, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+          { label: 'Conservative', data: cons.map(m => m.netWorth), borderColor: '#ff9f43', backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 0, borderWidth: 1.5, borderDash: [4, 4] },
+          { label: '$1M Milestone', data: milLine, borderColor: 'rgba(245,200,66,0.4)', backgroundColor: 'transparent', fill: false, pointRadius: 0, borderWidth: 1, borderDash: [6, 3] }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: true, labels: { color: '#8888a8', font: { family: 'Space Mono', size: 10 } } } },
+        scales: {
+          x: { ticks: { color: '#8888a8', font: { family: 'Space Mono', size: 9 }, maxTicksLimit: 12 }, grid: { color: '#1e2a40' } },
+          y: { ticks: { color: '#8888a8', font: { family: 'Space Mono', size: 10 }, callback: v => '$' + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v) }, grid: { color: '#1e2a40' } }
+        }
+      }
+    });
+  }
+
+  // Income breakdown at month 60
+  const m60 = base[59];
+  const ibEl = document.getElementById('wpIncomeBreakdown');
+  if (ibEl) {
+    const items = [
+      { label: 'Business', val: Math.round(inp.bizRev * Math.pow(1 + inp.bizGrowth, 59)), color: 'var(--accent)' },
+      { label: 'Credit Leverage', val: Math.round(inp.hysa + inp.rental + inp.creditOther), color: 'var(--gold)' },
+      { label: 'SPS Saving', val: Math.round(inp.spsCurrent - inp.spsModified), color: '#7c3aed' }
+    ].filter(i => i.val > 0);
+    ibEl.innerHTML = items.map(i => `
+      <div style="background:linear-gradient(135deg,#0d1525,#111a2e);border-radius:10px;padding:16px 20px;flex:1;min-width:120px;border:1px solid ${i.color}22;">
+        <div style="font-size:10px;letter-spacing:1px;color:var(--text2);font-family:'Space Mono',monospace;text-transform:uppercase;">${i.label}</div>
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:${i.color};margin-top:4px;">$${i.val.toLocaleString()}</div>
+        <div style="font-size:10px;color:var(--text2);">per month</div>
+      </div>`).join('') || '<div style="color:var(--text2);font-size:12px;">Enter values above to see breakdown</div>';
+  }
+
+  // Milestone timeline
+  const msEl = document.getElementById('wpMilestones');
+  if (msEl) {
+    const milestones = [
+      { target: 0,      label: 'Break Even', icon: '⚡' },
+      { target: 50000,  label: '$50K Net Worth', icon: '🥉' },
+      { target: 100000, label: '$100K Net Worth', icon: '🥈' },
+      { target: 250000, label: '$250K Net Worth', icon: '🥇' },
+      { target: 500000, label: '$500K Net Worth', icon: '💎' },
+      { target: 1000000, label: '$1M Net Worth', icon: '👑' }
+    ];
+    msEl.innerHTML = milestones.map(ms => {
+      const baseHit = base.find(m => m.netWorth >= ms.target);
+      const optHit  = opt.find(m => m.netWorth >= ms.target);
+      if (!optHit && !baseHit) return `<div class="wp-milestone-row"><div>${ms.icon} ${ms.label}</div><div style="color:var(--text2);font-size:12px;">Beyond 60 months</div></div>`;
+      const hit = optHit || baseHit;
+      const d = new Date();
+      d.setMonth(d.getMonth() + hit.m);
+      const label = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      return `<div class="wp-milestone-row">
+        <div style="font-size:13px;">${ms.icon} <strong>${ms.label}</strong></div>
+        <div style="font-size:12px;color:var(--accent);">Month ${hit.m} &mdash; ${label}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Monthly snapshot table (every 6 months)
+  const tbody = document.getElementById('wpSnapshotBody');
+  if (tbody) {
+    const rows = [1,6,12,18,24,30,36,42,48,54,60].map(m => {
+      const b = base[m - 1], o = opt[m - 1];
+      if (!b) return '';
+      return `<tr>
+        <td>Month ${m}</td>
+        <td style="color:var(--accent);">$${b.income.toLocaleString()}</td>
+        <td style="color:var(--score-bad);">$${b.debt.toLocaleString()}</td>
+        <td style="color:${b.netWorth >= 0 ? 'var(--accent)':'var(--score-bad)'};">$${b.netWorth.toLocaleString()}</td>
+        <td style="color:${o.netWorth >= 0 ? 'var(--score-excellent)':'var(--score-bad)'};">$${o.netWorth.toLocaleString()}</td>
+      </tr>`;
+    }).join('');
+    tbody.innerHTML = rows || '<tr><td colspan="5" style="color:var(--text2);text-align:center;padding:20px;">Enter revenue data above to generate projection</td></tr>';
+  }
+
+  wpSaveInputs();
+}
+
+async function wpSaveInputs() {
+  const inp = wpGetInputs();
+  await saveSetting('wealth_projection_inputs', inp);
+}
+
+function wpReset() {
+  ['wpBizRev','wpBizGrowth','wpBizExp','wpHysa','wpRental','wpCreditOther','wpTotalDebt','wpDebtPaydown','wpNewCredit'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = 0;
+  });
+  const defaults = { wpBizGrowth: 5, wpSpsCurrent: 3200, wpSpsModified: 2200, wpSpsMonths: 6, wpCurScore: 680, wpTargetScore: 750 };
+  Object.entries(defaults).forEach(([id, val]) => { const el = document.getElementById(id); if (el) el.value = val; });
+  wpCalculate();
+}
+
+async function renderWealthProjection() {
+  const saved = await loadSetting('wealth_projection_inputs', null);
+  if (saved && typeof saved === 'object') {
+    const map = {
+      bizRev: 'wpBizRev', bizGrowth: 'wpBizGrowth', bizExp: 'wpBizExp',
+      hysa: 'wpHysa', rental: 'wpRental', creditOther: 'wpCreditOther',
+      totalDebt: 'wpTotalDebt', debtPaydown: 'wpDebtPaydown',
+      spsCurrent: 'wpSpsCurrent', spsModified: 'wpSpsModified', spsMonths: 'wpSpsMonths',
+      curScore: 'wpCurScore', targetScore: 'wpTargetScore', newCredit: 'wpNewCredit'
+    };
+    Object.entries(map).forEach(([key, id]) => {
+      const el = document.getElementById(id);
+      if (el && saved[key] !== undefined) el.value = saved[key];
+    });
+  }
+  wpCalculate();
 }
 
 </script>
