@@ -4564,7 +4564,9 @@ let db = null;
 function initSupabase() {
   try {
     if (typeof supabase !== 'undefined') {
-      db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        db: { schema: 'financeiq' }
+      });
       console.log('FinanceIQ: Supabase connected ✅');
       return true;
     }
@@ -4578,7 +4580,7 @@ function initSupabase() {
 async function dbGet(table, query) {
   if (!db) return null;
   try {
-    let q = db.from('financeiq.' + table).select(query || '*');
+    let q = db.from(table).select(query || '*');
     const { data, error } = await q;
     if (error) { console.warn('dbGet error:', error.message); return null; }
     return data;
@@ -4589,7 +4591,7 @@ async function dbUpsert(table, rows, conflictCol) {
   if (!db) return false;
   try {
     const opts = conflictCol ? { onConflict: conflictCol } : {};
-    const { error } = await db.from('financeiq.' + table).upsert(rows, opts);
+    const { error } = await db.from(table).upsert(rows, opts);
     if (error) { console.warn('dbUpsert error:', error.message); return false; }
     return true;
   } catch(e) { console.warn('dbUpsert exception:', e.message); return false; }
@@ -4598,7 +4600,7 @@ async function dbUpsert(table, rows, conflictCol) {
 async function dbInsert(table, rows) {
   if (!db) return false;
   try {
-    const { error } = await db.from('financeiq.' + table).insert(rows);
+    const { error } = await db.from(table).insert(rows);
     if (error) { console.warn('dbInsert error:', error.message); return false; }
     return true;
   } catch(e) { console.warn('dbInsert exception:', e.message); return false; }
@@ -4607,7 +4609,7 @@ async function dbInsert(table, rows) {
 async function dbDelete(table, match) {
   if (!db) return false;
   try {
-    let q = db.from('financeiq.' + table).delete();
+    let q = db.from(table).delete();
     Object.entries(match).forEach(([k,v]) => { q = q.eq(k, v); });
     const { error } = await q;
     if (error) { console.warn('dbDelete error:', error.message); return false; }
@@ -4644,7 +4646,7 @@ async function saveTransactions(txs) {
   if (!db || !txs || txs.length === 0) return;
   showToast('💾 Saving transactions...', 'info');
   // Clear existing and re-insert (simplest approach for personal use)
-  await db.from('financeiq.transactions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  await db.from('transactions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
   const rows = txs.map(t => ({
     date: t.date || '', description: t.description || '', amount: t.amount || 0,
     type: t.type || 'debit', category: t.category || 'other',
@@ -4701,7 +4703,7 @@ async function saveChatMessage(chatType, role, content_text) {
 async function loadChatHistory(chatType) {
   if (!db) return [];
   try {
-    const { data, error } = await db.from('financeiq.chat_history')
+    const { data, error } = await db.from('chat_history')
       .select('role,content,created_at')
       .eq('chat_type', chatType)
       .order('created_at', { ascending: true })
@@ -4714,7 +4716,7 @@ async function loadChatHistory(chatType) {
 async function clearChatHistory(chatType) {
   if (!db) return;
   try {
-    await db.from('financeiq.chat_history').delete().eq('chat_type', chatType);
+    await db.from('chat_history').delete().eq('chat_type', chatType);
   } catch(e) {}
 }
 
@@ -4722,7 +4724,7 @@ async function clearChatHistory(chatType) {
 async function saveLoanStrategy(strategy, docCount) {
   if (!db || !strategy) return;
   // Keep only latest strategy
-  await db.from('financeiq.loan_strategy').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  await db.from('loan_strategy').delete().neq('id', '00000000-0000-0000-0000-000000000000');
   await dbInsert('loan_strategy', [{ strategy, doc_count: docCount || 0 }]);
   showToast('✅ Strategy saved', 'success');
 }
@@ -4730,7 +4732,7 @@ async function saveLoanStrategy(strategy, docCount) {
 async function loadLoanStrategy() {
   if (!db) return null;
   try {
-    const { data } = await db.from('financeiq.loan_strategy').select('strategy,doc_count').order('created_at', { ascending: false }).limit(1);
+    const { data } = await db.from('loan_strategy').select('strategy,doc_count').order('created_at', { ascending: false }).limit(1);
     return data && data.length > 0 ? data[0].strategy : null;
   } catch(e) { return null; }
 }
@@ -7957,7 +7959,9 @@ function saveAllSettings() {
   // Re-init Supabase if key changed
   if (appSettings.supaKey && appSettings.supaKey !== 'PASTE_YOUR_ANON_KEY_HERE') {
     try {
-      db = supabase.createClient(appSettings.supaUrl, appSettings.supaKey);
+      db = supabase.createClient(appSettings.supaUrl, appSettings.supaKey, {
+        db: { schema: 'financeiq' }
+      });
       showDbStatus(true);
     } catch(e) {}
   }
@@ -7996,8 +8000,10 @@ async function testConnections() {
     const url = document.getElementById('settingSupaUrl')?.value;
     const key = document.getElementById('settingSupaKey')?.value;
     if (url && key && key !== 'PASTE_YOUR_ANON_KEY_HERE') {
-      const testDb = supabase.createClient(url, key);
-      const { error } = await testDb.from('financeiq.settings').select('key').limit(1);
+      const testDb = supabase.createClient(url, key, {
+        db: { schema: 'financeiq' }
+      });
+      const { error } = await testDb.from('settings').select('key').limit(1);
       results.push(error ? '❌ Supabase: ' + error.message : '✅ Supabase: Connected');
     } else {
       results.push('⚠️ Supabase: No key configured');
@@ -8032,8 +8038,8 @@ function confirmClear(type) {
 
 async function clearData(type) {
   if (!db) { showToast('Not connected to Supabase', 'error'); return; }
-  const del = t => db.from('financeiq.' + t).delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  const delSimple = t => db.from('financeiq.' + t).delete().neq('key', 'xxxxxxx');
+  const del = t => db.from(t).delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  const delSimple = t => db.from(t).delete().neq('key', 'xxxxxxx');
 
   if (type === 'transactions' || type === 'all') {
     await del('transactions');
