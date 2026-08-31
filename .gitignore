@@ -1,0 +1,6 @@
+.playwright-mcp/
+.wrangler/
+*.png
+debt-planner.png
+invoices.png
+node_modules/
