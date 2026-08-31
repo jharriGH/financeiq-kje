@@ -2293,6 +2293,10 @@
       <div class="nav-item" onclick="showPage('debtcalc')">
         <span class="icon">🧮</span> Debt Payoff Calc
       </div>
+      <div class="nav-item" onclick="showPage('debt-planner')">
+        <span class="icon">⚡</span> Debt Avalanche
+        <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">NEW</span>
+      </div>
       <div class="nav-item" onclick="showPage('goals')">
         <span class="icon">🎯</span> Savings Goals
       </div>
@@ -2309,12 +2313,20 @@
 
     <div class="nav-section">
       <div class="nav-label">Management</div>
+      <div class="nav-item" onclick="showPage('kje-revenue')">
+        <span class="icon">💰</span> Revenue Dashboard
+        <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">NEW</span>
+      </div>
       <div class="nav-item" onclick="showPage('documents')">
         <span class="icon">📁</span> Documents
       </div>
       <div class="nav-item" onclick="showPage('empire')">
         <span class="icon">👑</span> KJE Empire
         <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">LIVE</span>
+      </div>
+      <div class="nav-item" onclick="showPage('invoices')">
+        <span class="icon">🧾</span> Invoice / AR
+        <span class="nav-badge" style="background:linear-gradient(135deg,#f5c842,#e6a817);color:#000;">NEW</span>
       </div>
       <div class="nav-item" onclick="showPage('settings')">
         <span class="icon">⚙️</span> Settings
@@ -4531,6 +4543,216 @@
                 <tbody id="wpSnapshotBody"></tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ KJE REVENUE DASHBOARD ============ -->
+    <div class="page" id="page-kje-revenue">
+      <div class="topbar">
+        <div>
+          <div class="page-title">💰 KJE Revenue <span>Dashboard</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Track all income streams across the empire</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="kjeRevAddStream()">+ Add Stream</button>
+          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="kjeRevSave()">💾 Save</button>
+        </div>
+      </div>
+
+      <!-- Summary Banner -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Total MRR</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--accent);" id="revTotalMrr">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Active Streams</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--gold);" id="revActiveCount">0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Top Category</div>
+          <div style="font-size:18px;font-weight:800;color:var(--text);" id="revTopCategory">—</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Goal Progress</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--accent4);" id="revGoalPct">0%</div>
+          <div style="font-size:10px;color:var(--text2);margin-top:4px;">of $10K/mo target</div>
+        </div>
+      </div>
+
+      <!-- Revenue Streams Table -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);margin-bottom:24px;">
+        <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;">Revenue Streams</div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <th style="text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;">Stream</th>
+                <th style="text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;">Category</th>
+                <th style="text-align:right;padding:8px 12px;color:var(--text2);font-weight:600;">MRR</th>
+                <th style="text-align:center;padding:8px 12px;color:var(--text2);font-weight:600;">Status</th>
+                <th style="text-align:right;padding:8px 12px;color:var(--text2);font-weight:600;"></th>
+              </tr>
+            </thead>
+            <tbody id="revStreamsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;">Revenue by Category</div>
+        <div style="max-height:300px;display:flex;justify-content:center;">
+          <canvas id="revCategoryChart" style="max-width:400px;"></canvas>
+        </div>
+      </div>
+
+      <!-- Add Stream Modal -->
+      <div id="revModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:var(--card);border-radius:20px;padding:32px;width:440px;border:1px solid rgba(255,255,255,0.12);">
+          <div style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:24px;">Add Revenue Stream</div>
+          <div style="display:grid;gap:16px;">
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Stream Name</label><input id="revNewName" type="text" placeholder="e.g. KJ Financez subscriptions" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Category</label><select id="revNewCategory" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"><option>SaaS</option><option>Consulting</option><option>Coaching</option><option>AI Services</option><option>Digital Products</option><option>Real Estate</option><option>Other</option></select></div>
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Monthly Revenue ($)</label><input id="revNewMrr" type="number" placeholder="0" min="0" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Status</label><select id="revNewStatus" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"><option value="active">Active</option><option value="building">Building</option><option value="paused">Paused</option></select></div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
+            <button class="btn btn-ghost" onclick="kjeRevCloseModal()">Cancel</button>
+            <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="kjeRevConfirmAdd()">Add Stream</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DEBT AVALANCHE AUTO-PLANNER ============ -->
+    <div class="page" id="page-debt-planner">
+      <div class="topbar">
+        <div>
+          <div class="page-title">⚡ Debt Avalanche <span>Auto-Planner</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Highest APR first — minimizes total interest paid</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="dpRunPlan()">⚡ Run Plan</button>
+        </div>
+      </div>
+
+      <!-- Extra Payment Slider -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);margin-bottom:24px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:700;color:var(--gold);">Extra Monthly Payment</div>
+          <div style="font-size:22px;font-weight:800;font-family:Space Mono,monospace;color:var(--accent);" id="dpExtraDisplay">$0/mo</div>
+        </div>
+        <input type="range" id="dpExtraSlider" min="0" max="2000" step="50" value="0"
+          oninput="document.getElementById('dpExtraDisplay').textContent='$'+this.value+'/mo';dpRunPlan();"
+          style="width:100%;accent-color:var(--gold);">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px;"><span>$0</span><span>$500</span><span>$1,000</span><span>$1,500</span><span>$2,000</span></div>
+      </div>
+
+      <!-- Debt Accounts -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);margin-bottom:24px;">
+        <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;">Accounts — Avalanche Order (Highest APR First)</div>
+        <div id="dpDebtList"></div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Total Debt</div>
+          <div style="font-size:24px;font-weight:800;font-family:Space Mono,monospace;color:var(--expense);" id="dpTotalDebt">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Est. Interest Saved</div>
+          <div style="font-size:24px;font-weight:800;font-family:Space Mono,monospace;color:var(--accent);" id="dpInterestSaved">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Debt-Free In</div>
+          <div style="font-size:24px;font-weight:800;font-family:Space Mono,monospace;color:var(--gold);" id="dpDebtFreeDate">—</div>
+        </div>
+      </div>
+
+      <!-- Payoff Timeline Chart -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;">Payoff Timeline</div>
+        <div style="height:280px;"><canvas id="dpTimelineChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ============ INVOICE / AR TRACKER ============ -->
+    <div class="page" id="page-invoices">
+      <div class="topbar">
+        <div>
+          <div class="page-title">🧾 Invoice / <span>AR Tracker</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Track outstanding invoices and accounts receivable</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="invOpenModal()">+ New Invoice</button>
+        </div>
+      </div>
+
+      <!-- AR Summary -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Outstanding</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--expense);" id="invOutstanding">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Collected (30d)</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--accent);" id="invCollected">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Overdue</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--debt);" id="invOverdue">$0</div>
+        </div>
+        <div style="background:var(--card);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Open Invoices</div>
+          <div style="font-size:28px;font-weight:800;font-family:Space Mono,monospace;color:var(--gold);" id="invOpenCount">0</div>
+        </div>
+      </div>
+
+      <!-- Invoices Table -->
+      <div style="background:var(--card);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;">Invoices</div>
+        <div id="invEmptyState" style="text-align:center;padding:60px 20px;color:var(--text2);">
+          <div style="font-size:48px;margin-bottom:16px;">🧾</div>
+          <div style="font-size:16px;font-weight:600;margin-bottom:8px;">No invoices yet</div>
+          <div style="font-size:13px;">Click "+ New Invoice" to create your first invoice</div>
+        </div>
+        <div style="overflow-x:auto;display:none;" id="invTableWrap">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <th style="text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;">#</th>
+                <th style="text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;">Client</th>
+                <th style="text-align:left;padding:8px 12px;color:var(--text2);font-weight:600;">Description</th>
+                <th style="text-align:right;padding:8px 12px;color:var(--text2);font-weight:600;">Amount</th>
+                <th style="text-align:center;padding:8px 12px;color:var(--text2);font-weight:600;">Due</th>
+                <th style="text-align:center;padding:8px 12px;color:var(--text2);font-weight:600;">Status</th>
+                <th style="text-align:right;padding:8px 12px;color:var(--text2);font-weight:600;"></th>
+              </tr>
+            </thead>
+            <tbody id="invTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- New Invoice Modal -->
+      <div id="invModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:var(--card);border-radius:20px;padding:32px;width:480px;border:1px solid rgba(255,255,255,0.12);">
+          <div style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:24px;">New Invoice</div>
+          <div style="display:grid;gap:16px;">
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Client / Company</label><input id="invNewClient" type="text" placeholder="Client name" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+            <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Description / Service</label><input id="invNewDesc" type="text" placeholder="e.g. Website build – Phase 1" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Amount ($)</label><input id="invNewAmount" type="number" placeholder="0.00" min="0" step="0.01" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+              <div><label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;">Due Date</label><input id="invNewDue" type="date" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;box-sizing:border-box;"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
+            <button class="btn btn-ghost" onclick="invCloseModal()">Cancel</button>
+            <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;" onclick="invConfirmAdd()">Create Invoice</button>
           </div>
         </div>
       </div>
@@ -7277,6 +7499,11 @@ function showPage(name) {
   if (name === 'credit-simulator') setTimeout(renderScoreSimulator, 50);
   if (name === 'sps-tracker') setTimeout(renderSpsTracker, 50);
   if (name === 'wealth-projection') setTimeout(renderWealthProjection, 50);
+
+  // MP3 features
+  if (name === 'kje-revenue') setTimeout(kjeRevRender, 50);
+  if (name === 'debt-planner') setTimeout(dpRender, 50);
+  if (name === 'invoices') setTimeout(invRender, 50);
 
   // KJE Empire
   if (name === 'empire') setTimeout(renderEmpireDashboard, 50);
@@ -10251,6 +10478,365 @@ async function renderWealthProjection() {
     });
   }
   wpCalculate();
+}
+
+// =============================================
+// KJE REVENUE DASHBOARD
+// =============================================
+
+let kjeRevStreams = [
+  { name: 'KJ Financez', category: 'SaaS', mrr: 0, status: 'building' },
+  { name: 'Jim Brain', category: 'AI Services', mrr: 0, status: 'building' },
+  { name: 'DemoBoosterz', category: 'SaaS', mrr: 0, status: 'building' },
+  { name: 'KJ SalesAgentz', category: 'AI Services', mrr: 0, status: 'building' },
+  { name: 'Consulting', category: 'Consulting', mrr: 0, status: 'active' }
+];
+let kjeRevChartInst = null;
+
+async function kjeRevRender() {
+  const saved = await loadSetting('kje_revenue_streams', null);
+  if (saved && Array.isArray(saved)) kjeRevStreams = saved;
+  kjeRevRefresh();
+}
+
+function kjeRevRefresh() {
+  const active = kjeRevStreams.filter(s => s.status === 'active');
+  const totalMrr = kjeRevStreams.reduce((s, r) => s + (r.mrr || 0), 0);
+  document.getElementById('revTotalMrr').textContent = '$' + totalMrr.toLocaleString();
+  document.getElementById('revActiveCount').textContent = active.length;
+  document.getElementById('revGoalPct').textContent = Math.round((totalMrr / 10000) * 100) + '%';
+
+  const cats = {};
+  kjeRevStreams.forEach(s => { cats[s.category] = (cats[s.category] || 0) + (s.mrr || 0); });
+  const topCat = Object.entries(cats).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('revTopCategory').textContent = topCat ? topCat[0] : '—';
+
+  const tbody = document.getElementById('revStreamsBody');
+  if (tbody) {
+    tbody.innerHTML = kjeRevStreams.map((s, i) => {
+      const statusColor = s.status === 'active' ? 'var(--accent)' : s.status === 'paused' ? 'var(--expense)' : 'var(--gold)';
+      return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+        <td style="padding:10px 12px;font-weight:600;">${s.name}</td>
+        <td style="padding:10px 12px;color:var(--text2);">${s.category}</td>
+        <td style="padding:10px 12px;text-align:right;font-family:Space Mono,monospace;font-weight:700;color:var(--accent);">$${(s.mrr||0).toLocaleString()}</td>
+        <td style="padding:10px 12px;text-align:center;"><span style="background:${statusColor}22;color:${statusColor};border-radius:6px;padding:2px 10px;font-size:11px;font-weight:700;text-transform:uppercase;">${s.status}</span></td>
+        <td style="padding:10px 12px;text-align:right;"><button onclick="kjeRevDelete(${i})" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:14px;" title="Remove">🗑</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  kjeRevDrawChart(cats);
+}
+
+function kjeRevDrawChart(cats) {
+  const canvas = document.getElementById('revCategoryChart');
+  if (!canvas) return;
+  if (kjeRevChartInst) { kjeRevChartInst.destroy(); kjeRevChartInst = null; }
+  const labels = Object.keys(cats);
+  const data = Object.values(cats);
+  if (!labels.length || data.every(v => v === 0)) return;
+  const colors = ['#00e5a0','#f5c842','#7c3aed','#e6a817','#60a5fa','#f87171','#34d399'];
+  kjeRevChartInst = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors.slice(0, labels.length), borderWidth: 0 }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'right', labels: { color: '#a0a0b0', font: { size: 12 } } } }
+    }
+  });
+}
+
+function kjeRevAddStream() {
+  const overlay = document.getElementById('revModalOverlay');
+  if (overlay) { overlay.style.display = 'flex'; document.getElementById('revNewName').value = ''; document.getElementById('revNewMrr').value = ''; }
+}
+
+function kjeRevCloseModal() {
+  const overlay = document.getElementById('revModalOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function kjeRevConfirmAdd() {
+  const name = document.getElementById('revNewName').value.trim();
+  const category = document.getElementById('revNewCategory').value;
+  const mrr = parseFloat(document.getElementById('revNewMrr').value) || 0;
+  const status = document.getElementById('revNewStatus').value;
+  if (!name) return;
+  kjeRevStreams.push({ name, category, mrr, status });
+  kjeRevCloseModal();
+  kjeRevRefresh();
+}
+
+function kjeRevDelete(i) {
+  kjeRevStreams.splice(i, 1);
+  kjeRevRefresh();
+}
+
+async function kjeRevSave() {
+  await saveSetting('kje_revenue_streams', kjeRevStreams);
+}
+
+// =============================================
+// DEBT AVALANCHE AUTO-PLANNER
+// =============================================
+
+let dpChartInst = null;
+
+function dpRender() {
+  dpRunPlan();
+}
+
+function dpRunPlan() {
+  const extra = parseFloat(document.getElementById('dpExtraSlider')?.value || 0);
+  const el = document.getElementById('dpExtraDisplay');
+  if (el) el.textContent = '$' + extra + '/mo';
+
+  // Sort a copy of debtRows by APR descending (avalanche)
+  const rows = debtRows.map((r, i) => ({ ...r, index: i })).sort((a, b) => b.apr - a.apr);
+
+  const totalDebt = debtRows.reduce((s, r) => s + r.balance, 0);
+  document.getElementById('dpTotalDebt').textContent = '$' + Math.round(totalDebt).toLocaleString();
+
+  // Render ordered debt list
+  const listEl = document.getElementById('dpDebtList');
+  if (listEl) {
+    listEl.innerHTML = rows.map((r, rank) => {
+      const monthlyInterest = r.balance * r.apr / 100 / 12;
+      return `<div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+        <div style="width:28px;height:28px;border-radius:50%;background:${rank===0?'var(--expense)':rank===1?'var(--debt)':'rgba(255,255,255,0.08)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">${rank+1}</div>
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:14px;">${r.name}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:2px;">APR: ${r.apr}% · Min: $${r.minPmt}/mo · Monthly interest: ~$${Math.round(monthlyInterest)}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:Space Mono,monospace;font-size:15px;font-weight:700;color:var(--expense);">$${r.balance.toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--text2);">${r.apr}% APR</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Simulate payoff
+  const minPayoffMonths = dpSimulate(rows, 0);
+  const extraPayoffMonths = dpSimulate(rows, extra);
+  const interestNoExtra = dpCalcTotalInterest(rows, 0);
+  const interestExtra = dpCalcTotalInterest(rows, extra);
+  const saved = Math.max(0, interestNoExtra - interestExtra);
+
+  document.getElementById('dpInterestSaved').textContent = '$' + Math.round(saved).toLocaleString();
+  const months = extraPayoffMonths;
+  if (months >= 480) {
+    document.getElementById('dpDebtFreeDate').textContent = '40+ yrs';
+  } else {
+    const d = new Date();
+    d.setMonth(d.getMonth() + months);
+    document.getElementById('dpDebtFreeDate').textContent = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  }
+
+  dpDrawChart(rows, extra);
+}
+
+function dpSimulate(sortedRows, extra) {
+  let balances = sortedRows.map(r => r.balance);
+  let month = 0;
+  while (balances.some(b => b > 0.01) && month < 480) {
+    month++;
+    let extraLeft = extra;
+    balances = balances.map((b, i) => b > 0 ? b + (b * sortedRows[i].apr / 100 / 12) : 0);
+    sortedRows.forEach((r, i) => {
+      if (balances[i] > 0) { balances[i] = Math.max(0, balances[i] - r.minPmt); }
+    });
+    for (let i = 0; i < sortedRows.length && extraLeft > 0; i++) {
+      if (balances[i] > 0) { const pay = Math.min(extraLeft, balances[i]); balances[i] -= pay; extraLeft -= pay; }
+    }
+  }
+  return month;
+}
+
+function dpCalcTotalInterest(sortedRows, extra) {
+  let balances = sortedRows.map(r => r.balance);
+  let totalInterest = 0;
+  let month = 0;
+  while (balances.some(b => b > 0.01) && month < 480) {
+    month++;
+    let extraLeft = extra;
+    const interests = balances.map((b, i) => b > 0 ? b * sortedRows[i].apr / 100 / 12 : 0);
+    totalInterest += interests.reduce((s, v) => s + v, 0);
+    balances = balances.map((b, i) => b > 0 ? b + interests[i] : 0);
+    sortedRows.forEach((r, i) => {
+      if (balances[i] > 0) { balances[i] = Math.max(0, balances[i] - r.minPmt); }
+    });
+    for (let i = 0; i < sortedRows.length && extraLeft > 0; i++) {
+      if (balances[i] > 0) { const pay = Math.min(extraLeft, balances[i]); balances[i] -= pay; extraLeft -= pay; }
+    }
+  }
+  return totalInterest;
+}
+
+function dpDrawChart(sortedRows, extra) {
+  const canvas = document.getElementById('dpTimelineChart');
+  if (!canvas) return;
+  if (dpChartInst) { dpChartInst.destroy(); dpChartInst = null; }
+
+  const months = Math.min(dpSimulate(sortedRows, extra) + 3, 120);
+  const labels = [];
+  const baseBalances = [];
+  const extraBalances = [];
+
+  let bBase = sortedRows.map(r => r.balance);
+  let bExtra = sortedRows.map(r => r.balance);
+
+  for (let m = 0; m <= months; m++) {
+    if (m % 6 === 0 || m === months) labels.push(m === 0 ? 'Now' : 'Mo ' + m);
+    else labels.push('');
+    baseBalances.push(Math.round(bBase.reduce((s, b) => s + Math.max(0, b), 0)));
+    extraBalances.push(Math.round(bExtra.reduce((s, b) => s + Math.max(0, b), 0)));
+    if (m < months) {
+      bBase = bBase.map((b, i) => b > 0 ? Math.max(0, b + b * sortedRows[i].apr / 100 / 12 - sortedRows[i].minPmt) : 0);
+      let xLeft = extra;
+      bExtra = bExtra.map((b, i) => b > 0 ? b + b * sortedRows[i].apr / 100 / 12 : 0);
+      sortedRows.forEach((r, i) => { if (bExtra[i] > 0) bExtra[i] = Math.max(0, bExtra[i] - r.minPmt); });
+      for (let i = 0; i < sortedRows.length && xLeft > 0; i++) {
+        if (bExtra[i] > 0) { const p = Math.min(xLeft, bExtra[i]); bExtra[i] -= p; xLeft -= p; }
+      }
+    }
+  }
+
+  dpChartInst = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Min Payments Only', data: baseBalances, borderColor: 'rgba(239,68,68,0.7)', backgroundColor: 'rgba(239,68,68,0.08)', fill: true, tension: 0.3, pointRadius: 0 },
+        { label: extra > 0 ? 'With +$' + extra + '/mo Extra' : 'With Extra Payment', data: extraBalances, borderColor: '#00e5a0', backgroundColor: 'rgba(0,229,160,0.08)', fill: true, tension: 0.3, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#a0a0b0', font: { size: 12 } } } },
+      scales: {
+        x: { ticks: { color: '#a0a0b0', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#a0a0b0', font: { size: 10 }, callback: v => '$' + (v >= 1000 ? Math.round(v/1000)+'K' : v) }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    }
+  });
+}
+
+// =============================================
+// INVOICE / AR TRACKER
+// =============================================
+
+let invList = [];
+let invNextNum = 1001;
+
+async function invRender() {
+  const saved = await loadSetting('invoice_data', null);
+  if (saved && saved.list) { invList = saved.list; invNextNum = saved.nextNum || 1001; }
+  invRefresh();
+}
+
+function invRefresh() {
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+  let outstanding = 0, collected = 0, overdue = 0;
+
+  invList.forEach(inv => {
+    const due = new Date(inv.due);
+    if (inv.status === 'paid') {
+      const paidDate = new Date(inv.paidAt || inv.due);
+      if (paidDate >= thirtyDaysAgo) collected += inv.amount;
+    } else {
+      outstanding += inv.amount;
+      if (due < now) overdue += inv.amount;
+    }
+  });
+
+  const openCount = invList.filter(i => i.status !== 'paid').length;
+  document.getElementById('invOutstanding').textContent = '$' + outstanding.toLocaleString();
+  document.getElementById('invCollected').textContent = '$' + collected.toLocaleString();
+  document.getElementById('invOverdue').textContent = '$' + overdue.toLocaleString();
+  document.getElementById('invOpenCount').textContent = openCount;
+
+  const emptyEl = document.getElementById('invEmptyState');
+  const tableWrap = document.getElementById('invTableWrap');
+  if (invList.length === 0) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (tableWrap) tableWrap.style.display = 'none';
+  } else {
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (tableWrap) tableWrap.style.display = 'block';
+    const tbody = document.getElementById('invTableBody');
+    if (tbody) {
+      tbody.innerHTML = invList.slice().reverse().map((inv, ri) => {
+        const i = invList.length - 1 - ri;
+        const due = new Date(inv.due);
+        const isOverdue = inv.status !== 'paid' && due < now;
+        const statusColor = inv.status === 'paid' ? 'var(--accent)' : isOverdue ? 'var(--expense)' : 'var(--gold)';
+        const statusLabel = inv.status === 'paid' ? 'Paid' : isOverdue ? 'Overdue' : 'Open';
+        return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:10px 12px;font-family:Space Mono,monospace;font-size:12px;color:var(--text2);">#${inv.num}</td>
+          <td style="padding:10px 12px;font-weight:600;">${inv.client}</td>
+          <td style="padding:10px 12px;color:var(--text2);">${inv.desc}</td>
+          <td style="padding:10px 12px;text-align:right;font-family:Space Mono,monospace;font-weight:700;color:var(--accent);">$${inv.amount.toLocaleString()}</td>
+          <td style="padding:10px 12px;text-align:center;font-size:12px;color:${isOverdue?'var(--expense)':'var(--text2)'};">${due.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</td>
+          <td style="padding:10px 12px;text-align:center;"><span style="background:${statusColor}22;color:${statusColor};border-radius:6px;padding:2px 10px;font-size:11px;font-weight:700;">${statusLabel}</span></td>
+          <td style="padding:10px 12px;text-align:right;display:flex;gap:8px;justify-content:flex-end;">
+            ${inv.status !== 'paid' ? `<button onclick="invMarkPaid(${i})" style="background:var(--accent)22;border:none;color:var(--accent);cursor:pointer;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;">Mark Paid</button>` : ''}
+            <button onclick="invDelete(${i})" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:14px;" title="Delete">🗑</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+  }
+}
+
+function invOpenModal() {
+  const overlay = document.getElementById('invModalOverlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    document.getElementById('invNewClient').value = '';
+    document.getElementById('invNewDesc').value = '';
+    document.getElementById('invNewAmount').value = '';
+    document.getElementById('invNewDue').value = '';
+  }
+}
+
+function invCloseModal() {
+  const overlay = document.getElementById('invModalOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function invConfirmAdd() {
+  const client = document.getElementById('invNewClient').value.trim();
+  const desc = document.getElementById('invNewDesc').value.trim();
+  const amount = parseFloat(document.getElementById('invNewAmount').value) || 0;
+  const due = document.getElementById('invNewDue').value;
+  if (!client || !amount || !due) return;
+  invList.push({ num: invNextNum++, client, desc, amount, due, status: 'open', createdAt: new Date().toISOString() });
+  invCloseModal();
+  await invSave();
+  invRefresh();
+}
+
+async function invMarkPaid(i) {
+  invList[i].status = 'paid';
+  invList[i].paidAt = new Date().toISOString();
+  await invSave();
+  invRefresh();
+}
+
+async function invDelete(i) {
+  invList.splice(i, 1);
+  await invSave();
+  invRefresh();
+}
+
+async function invSave() {
+  await saveSetting('invoice_data', { list: invList, nextNum: invNextNum });
 }
 
 </script>
