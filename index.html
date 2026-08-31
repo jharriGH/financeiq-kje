@@ -2374,8 +2374,8 @@
       <div class="profile-chip">
         <div class="avatar">JH</div>
         <div>
-          <div class="profile-name">Jim Harris</div>
-          <div class="profile-plan">Personal + Business</div>
+          <div class="profile-name" id="profileNameEl">Jim Harris</div>
+          <div class="profile-plan" id="profileRoleEl">Personal + Business</div>
         </div>
         <div title="Database status" style="margin-left:auto;display:flex;align-items:center;gap:5px;">
           <div id="dbStatusDot" style="width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.5s;" title="Connecting..."></div>
@@ -4400,16 +4400,41 @@
       <!-- Activity Input Modal (inline) -->
       <div id="spsActivityInput" style="display:none;background:linear-gradient(135deg,#0d1525,#111a2e);border-radius:12px;padding:20px;border:1px solid #a78bfa44;margin-top:20px;">
         <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:#a78bfa;margin-bottom:12px;">LOG ACTIVITY</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
           <div>
-            <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Activity</div>
-            <input id="spsActNote" class="settings-input" placeholder="e.g. Called SPS, faxed hardship letter..." style="width:100%;">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Date</div>
+            <input id="spsActDate" type="date" class="settings-input" style="width:100%;">
           </div>
           <div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Type</div>
+            <select id="spsActType" class="settings-input" style="width:100%;">
+              <option value="call">📞 Phone Call</option>
+              <option value="fax">📠 Fax</option>
+              <option value="email">📧 Email</option>
+              <option value="portal">💻 Portal Upload</option>
+              <option value="document">📄 Document Submitted</option>
+              <option value="appointment">📅 Appointment</option>
+              <option value="other">🔖 Other</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Description</div>
+          <textarea id="spsActNote" class="settings-input" rows="2" placeholder="e.g. Called SPS, spoke with rep, confirmed receipt of hardship letter..." style="width:100%;resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text2);">
+            <input type="checkbox" id="spsActFollowup" onchange="document.getElementById('spsActFollowupDate').style.display=this.checked?'':'none'"> Follow-up needed?
+          </label>
+          <input id="spsActFollowupDate" type="date" class="settings-input" style="display:none;width:160px;">
+          <div style="margin-left:auto;">
             <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Docs submitted</div>
-            <input id="spsActDocs" type="number" class="settings-input" placeholder="0" min="0" style="width:100%;">
+            <input id="spsActDocs" type="number" class="settings-input" placeholder="0" min="0" style="width:80px;">
           </div>
-          <button class="btn btn-primary" style="background:#7c3aed;border:none;" onclick="spsLogActivity()">Save</button>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button class="btn btn-ghost" onclick="document.getElementById('spsActivityInput').style.display='none'">Cancel</button>
+          <button class="btn btn-primary" style="background:#7c3aed;border:none;" onclick="spsLogActivity()">Save Activity</button>
         </div>
       </div>
     </div>
@@ -5003,6 +5028,14 @@ let appState = {
 // NAVIGATION
 // =============================================
 function _showPageCore(name) {
+  // Destroy any orphaned chart instances not on the new page before switching
+  Object.keys(appState.charts || {}).forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas && !canvas.closest('#page-' + name)) {
+      try { appState.charts[id].destroy(); } catch(e) {}
+      delete appState.charts[id];
+    }
+  });
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
@@ -5467,12 +5500,20 @@ async function analyzeStatements() {
     setStep(7);
     await sleep(400);
 
-    appState.transactions = allTransactions;
-    appState.months = getMonths(allTransactions);
+    // Deduplicate by date+description+amount to avoid double-counting re-uploads
+    const seen = new Set();
+    const deduped = allTransactions.filter(t => {
+      const key = `${t.date}|${t.description}|${t.amount}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    appState.transactions = deduped;
+    appState.months = getMonths(deduped);
     appState.selectedMonth = 'all';
 
     // Auto-save to Supabase
-    await saveTransactions(allTransactions);
+    await saveTransactions(deduped);
 
     overlay.classList.remove('show');
     showPage('dashboard');
@@ -5515,15 +5556,15 @@ function generateDemoTransactions() {
     txs.push({ date: `${monthDate.getMonth()+1}/25/${monthDate.getFullYear()}`, description: 'DemoEnginez - Client Payment', amount: 1200 + Math.random() * 800, type: 'credit', category: 'income', account: 'Business Checking', month: monthStr });
 
     // Mortgage/Rent
-    txs.push({ date: `${monthDate.getMonth()+1}/1/${monthDate.getFullYear()}`, description: 'Mortgage Payment - Wells Fargo Home', amount: 2150, type: 'debit', category: 'debt', account: 'Chase Checking', month: monthStr });
+    txs.push({ date: `${monthDate.getMonth()+1}/1/${monthDate.getFullYear()}`, description: 'Mortgage Payment - Wells Fargo Home', amount: 2150, type: 'debit', category: 'mortgage', account: 'Chase Checking', month: monthStr });
 
     // Car
-    txs.push({ date: `${monthDate.getMonth()+1}/7/${monthDate.getFullYear()}`, description: 'Auto Loan Payment - Capital One Auto', amount: 485, type: 'debit', category: 'debt', account: 'Chase Checking', month: monthStr });
+    txs.push({ date: `${monthDate.getMonth()+1}/7/${monthDate.getFullYear()}`, description: 'Auto Loan Payment - Capital One Auto', amount: 485, type: 'debit', category: 'auto', account: 'Chase Checking', month: monthStr });
 
     // Credit Cards
-    txs.push({ date: `${monthDate.getMonth()+1}/12/${monthDate.getFullYear()}`, description: 'Chase Credit Card Payment', amount: 850 + Math.random() * 400, type: 'debit', category: 'debt', account: 'Chase Checking', month: monthStr });
-    txs.push({ date: `${monthDate.getMonth()+1}/18/${monthDate.getFullYear()}`, description: 'Amex Gold Card Payment', amount: 620 + Math.random() * 300, type: 'debit', category: 'debt', account: 'Chase Checking', month: monthStr });
-    txs.push({ date: `${monthDate.getMonth()+1}/22/${monthDate.getFullYear()}`, description: 'Capital One Quicksilver Payment', amount: 340 + Math.random() * 200, type: 'debit', category: 'debt', account: 'Chase Checking', month: monthStr });
+    txs.push({ date: `${monthDate.getMonth()+1}/12/${monthDate.getFullYear()}`, description: 'Chase Credit Card Payment', amount: 850 + Math.random() * 400, type: 'debit', category: 'cc_payment', account: 'Chase Checking', month: monthStr });
+    txs.push({ date: `${monthDate.getMonth()+1}/18/${monthDate.getFullYear()}`, description: 'Amex Gold Card Payment', amount: 620 + Math.random() * 300, type: 'debit', category: 'cc_payment', account: 'Chase Checking', month: monthStr });
+    txs.push({ date: `${monthDate.getMonth()+1}/22/${monthDate.getFullYear()}`, description: 'Capital One Quicksilver Payment', amount: 340 + Math.random() * 200, type: 'debit', category: 'cc_payment', account: 'Chase Checking', month: monthStr });
 
     // Subscriptions
     const subs = [
@@ -6001,7 +6042,7 @@ function renderDebtPage() {
   const income = sumByType(txs, 'credit');
   const months = Math.max(appState.months.length, 1);
 
-  const debtCats = ['mortgage', 'auto', 'cc_payment', 'bnpl'];
+  const debtCats = ['mortgage', 'auto', 'cc_payment', 'bnpl', 'debt'];
   const debtTxs = txs.filter(t => debtCats.includes(t.category));
   const totalDebt = debtTxs.reduce((s, t) => s + t.amount, 0);
   const monthly = totalDebt / months;
@@ -6204,18 +6245,18 @@ function renderCashflowPage() {
   recurringInc.forEach(t => { incGroups[t.description] = (incGroups[t.description] || 0) + 1; });
   document.getElementById('recurringIncome').innerHTML = Object.entries(incGroups).filter(e => e[1] > 1).sort((a, b) => b[1] - a[1]).map(([name, count]) => `
     <div class="sub-item">
-      <div class="sub-left"><div class="sub-icon">💵</div><div><div class="sub-name">${name}</div><div class="sub-freq">${count}x detected</div></div></div>
+      <div class="sub-left"><div class="sub-icon">💵</div><div><div class="sub-name">${name}</div><div class="sub-freq">Recurring &bull; ${count}x/mo</div></div></div>
     </div>
-  `).join('') || '<div style="color:var(--text2); font-size:13px; padding:20px 0;">No recurring income detected yet</div>';
+  `).join('') || '<div style="color:var(--text2); font-size:13px; padding:20px 0;">No recurring income detected yet. Upload multiple months of statements.</div>';
 
   const recurringExp = appState.transactions.filter(t => t.type === 'debit');
   const expGroups = {};
   recurringExp.forEach(t => { expGroups[t.description] = (expGroups[t.description] || 0) + 1; });
   document.getElementById('recurringExpenses').innerHTML = Object.entries(expGroups).filter(e => e[1] > 1).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([name, count]) => `
     <div class="sub-item">
-      <div class="sub-left"><div class="sub-icon">📤</div><div><div class="sub-name">${name}</div><div class="sub-freq">${count}x detected</div></div></div>
+      <div class="sub-left"><div class="sub-icon">📤</div><div><div class="sub-name">${name}</div><div class="sub-freq">Recurring &bull; ${count}x/mo</div></div></div>
     </div>
-  `).join('');
+  `).join('') || '<div style="color:var(--text2); font-size:13px; padding:20px 0;">No recurring expenses detected yet. Upload multiple months of statements.</div>';
 }
 
 // =============================================
@@ -6261,6 +6302,12 @@ function exportReport() {
 // INIT — Boot sequence with Supabase
 // =============================================
 async function bootApp() {
+  // Safety valve: if boot hangs >10s, clear sessionStorage (not localStorage — preserves supa key) and continue
+  const bootTimer = setTimeout(() => {
+    try { sessionStorage.clear(); } catch(e) {}
+    console.warn('Boot timeout — sessionStorage cleared');
+  }, 10000);
+
   // 1. Init Supabase
   const connected = initSupabase();
   showDbStatus(connected);
@@ -6294,6 +6341,7 @@ async function bootApp() {
         showToast('✅ Loaded ' + txs.length + ' transactions from database', 'success');
         showDbStatus(true);
         // Go straight to dashboard if we have data
+        clearTimeout(bootTimer);
         showPage('dashboard');
         renderDashboard();
         return;
@@ -6316,6 +6364,7 @@ async function bootApp() {
   // Load new feature data (goals, doc library, settings)
   await loadNewFeatureData();
 
+  clearTimeout(bootTimer);
   // Default: show upload page
   showPage('upload');
   document.getElementById('uploadBadge').style.display = 'inline';
@@ -7390,9 +7439,9 @@ async function lmSendChat() {
   saveChatMessage('sps', 'user', userMsg);
   lmShowTyping();
 
-  // Build message history with context injection
+  // Build message history with context injection (cap at 50 to prevent memory bloat)
   const history = [...lmState.chatMessages, { role: 'user', content: userMsg }];
-  lmState.chatMessages = history;
+  lmState.chatMessages = history.length > 50 ? history.slice(history.length - 50) : history;
 
   let messages = history;
   // Inject document analyses and strategy as context if available
@@ -8049,6 +8098,7 @@ async function sendLeverageChat() {
   el.scrollTop = el.scrollHeight;
 
   leverageChatHistory.push({ role: 'user', content: userMsg });
+  if (leverageChatHistory.length > 50) leverageChatHistory.splice(0, leverageChatHistory.length - 50);
   saveChatMessage('leverage', 'user', userMsg);
 
   try {
@@ -8064,6 +8114,7 @@ async function sendLeverageChat() {
     const data = await response.json();
     const reply = data.content?.[0]?.text || 'Sorry, could not get a response. Try again.';
     leverageChatHistory.push({ role: 'assistant', content: reply });
+    if (leverageChatHistory.length > 50) leverageChatHistory.splice(0, leverageChatHistory.length - 50);
     saveChatMessage('leverage', 'assistant', reply);
 
     document.getElementById('leverageTyping')?.remove();
@@ -8149,6 +8200,11 @@ function loadSettingsToUI() {
     const ph = document.getElementById('logoPlaceholder');
     if (img && ph) { img.src = s.logo; img.style.display = 'block'; ph.style.display = 'none'; }
   }
+  // Propagate name/role to sidebar immediately
+  const nameEl = document.getElementById('profileNameEl');
+  if (nameEl && s.name) nameEl.textContent = s.name;
+  const roleEl = document.getElementById('profileRoleEl');
+  if (roleEl && s.role) roleEl.textContent = s.role;
 }
 
 function saveAllSettings() {
@@ -8499,6 +8555,7 @@ async function sendDrmbChat() {
   drmbAppendUser(userMsg);
   saveChatMessage('drmoney', 'user', userMsg);
   drmbHistory.push({ role: 'user', content: userMsg });
+  if (drmbHistory.length > 50) drmbHistory.splice(0, drmbHistory.length - 50);
   drmbShowTyping();
 
   // Build messages with full context injection
@@ -8524,6 +8581,7 @@ async function sendDrmbChat() {
     document.getElementById('drmbTyping')?.remove();
     drmbAppendAI(reply);
     drmbHistory.push({ role: 'assistant', content: reply });
+    if (drmbHistory.length > 50) drmbHistory.splice(0, drmbHistory.length - 50);
     saveChatMessage('drmoney', 'assistant', reply);
   } catch(err) {
     document.getElementById('drmbTyping')?.remove();
@@ -10229,10 +10287,12 @@ function spsRenderActivity() {
     log.innerHTML = '<div style="color:var(--text2);font-size:12px;text-align:center;padding:20px;">No activities logged yet.<br>Use "+ Log Activity" to track calls, faxes, and submissions.</div>';
     return;
   }
+  const typeLabels = { call:'📞 Call', fax:'📠 Fax', email:'📧 Email', portal:'💻 Portal', document:'📄 Doc', appointment:'📅 Appt', other:'🔖 Other' };
   log.innerHTML = [...spsTrackerState.activities].reverse().map(a => `
     <div class="sps-activity-row">
       <div style="color:var(--text2);white-space:nowrap;min-width:80px;">${a.date}</div>
-      <div style="flex:1;">${a.note}</div>
+      ${a.type ? '<div style="color:#a78bfa;white-space:nowrap;min-width:70px;">' + (typeLabels[a.type] || a.type) + '</div>' : ''}
+      <div style="flex:1;">${a.note}${a.followup ? ' <span style="color:var(--gold);font-size:11px;">↩ Follow-up: ' + a.followup + '</span>' : ''}</div>
       ${a.docs ? '<div style="color:var(--accent);white-space:nowrap;">+' + a.docs + ' docs</div>' : ''}
     </div>`).join('');
 }
@@ -10275,19 +10335,30 @@ async function spsAdvanceStage() {
 
 function spsAddActivity() {
   const inp = document.getElementById('spsActivityInput');
-  if (inp) inp.style.display = inp.style.display === 'none' ? '' : 'none';
+  if (!inp) return;
+  if (inp.style.display === 'none' || inp.style.display === '') {
+    const dateEl = document.getElementById('spsActDate');
+    if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0, 10);
+    inp.style.display = 'block';
+  } else {
+    inp.style.display = 'none';
+  }
 }
 
 async function spsLogActivity() {
   const note = (document.getElementById('spsActNote') || {}).value || '';
+  const actDate = (document.getElementById('spsActDate') || {}).value || new Date().toISOString().slice(0, 10);
+  const actType = (document.getElementById('spsActType') || {}).value || 'other';
+  const followupChecked = document.getElementById('spsActFollowup')?.checked || false;
+  const followupDate = followupChecked ? ((document.getElementById('spsActFollowupDate') || {}).value || '') : '';
   const docs = parseInt((document.getElementById('spsActDocs') || {}).value || 0);
-  if (!note.trim()) { showToast('Enter an activity note', 'error'); return; }
-  spsTrackerState.activities.push({ date: new Date().toLocaleDateString(), note: note.trim(), docs });
+  if (!note.trim()) { showToast('Enter a description', 'error'); return; }
+  const dateLabel = actDate ? new Date(actDate + 'T00:00:00').toLocaleDateString() : new Date().toLocaleDateString();
+  spsTrackerState.activities.push({ date: dateLabel, type: actType, note: note.trim(), docs, followup: followupDate });
   spsTrackerState.docCount += docs;
-  const noteEl = document.getElementById('spsActNote');
-  const docsEl = document.getElementById('spsActDocs');
-  if (noteEl) noteEl.value = '';
-  if (docsEl) docsEl.value = '';
+  ['spsActNote','spsActDocs'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const fu = document.getElementById('spsActFollowup'); if (fu) fu.checked = false;
+  const fuDate = document.getElementById('spsActFollowupDate'); if (fuDate) { fuDate.value = ''; fuDate.style.display = 'none'; }
   const inp = document.getElementById('spsActivityInput');
   if (inp) inp.style.display = 'none';
   await spsSaveState();
