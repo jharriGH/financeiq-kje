@@ -4780,7 +4780,7 @@ const KJ_PROXY = 'https://kjfinancez-proxy.jharricts.workers.dev/api/ai';
 // Schema: financeiq
 // =============================================
 const SUPABASE_URL = 'https://dhzpwobfihrprlcxqjbq.supabase.co';
-const SUPABASE_ANON_KEY = '';
+const SUPABASE_ANON_KEY = localStorage.getItem('kj_supa_anon_key') || '';
 let db = null;
 
 function initSupabase() {
@@ -4789,6 +4789,9 @@ function initSupabase() {
       db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
         db: { schema: 'financeiq' }
       });
+      if (appSettings.supaKey) {
+        localStorage.setItem('kj_supa_anon_key', appSettings.supaKey);
+      }
       console.log('FinanceIQ: Supabase connected ✅');
       return true;
     }
@@ -6261,6 +6264,12 @@ async function bootApp() {
   // 1. Init Supabase
   const connected = initSupabase();
   showDbStatus(connected);
+
+  // Auto-load key from localStorage if available
+  const storedKey = localStorage.getItem('kj_supa_anon_key');
+  if (storedKey && !appSettings.supaKey) {
+    appSettings.supaKey = storedKey;
+  }
 
   if (connected) {
     showToast('🔌 Connecting to database...', 'info');
@@ -8100,7 +8109,7 @@ const appSettings = {
   drmbLength: 'balanced',
   drmbTokens: 1000,
   supaUrl: 'https://dhzpwobfihrprlcxqjbq.supabase.co',
-  supaKey: '',
+  supaKey: localStorage.getItem('kj_supa_anon_key') || '',
   income: 10400,
   mort1: 545000,
   mort2: 15000,
@@ -8158,6 +8167,9 @@ function saveAllSettings() {
   appSettings.drmbTokens = parseInt(get('settingDrmbTokens')) || 1000;
   appSettings.supaUrl = get('settingSupaUrl');
   appSettings.supaKey = get('settingSupaKey');
+  if (appSettings.supaKey) {
+    localStorage.setItem('kj_supa_anon_key', appSettings.supaKey);
+  }
   appSettings.income = getNum('settingIncome');
   appSettings.mort1 = getNum('settingMort1');
   appSettings.mort2 = getNum('settingMort2');
