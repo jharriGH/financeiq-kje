@@ -2406,7 +2406,7 @@
         </div>
         <input type="file" id="fileInput" multiple accept=".pdf,.csv" onchange="handleFiles(this.files)">
         <div style="margin-top:20px;">
-          <button class="btn btn-primary" onclick="event.stopPropagation()">Browse Files</button>
+          <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Browse Files</button>
           <button class="btn btn-ghost" style="margin-left:10px;" onclick="event.stopPropagation(); loadDemoData()">Load Demo Data</button>
         </div>
       </div>
